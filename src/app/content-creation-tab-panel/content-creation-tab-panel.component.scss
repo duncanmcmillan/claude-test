@@ -7,10 +7,10 @@
 
 .panel {
   width: 80%;
-  min-height: 50vh;
+  height: 80vh;
   display: flex;
   flex-direction: column;
-  align-items: center;
+  align-items: flex-start;
   gap: 1.5rem;
   padding: 2rem;
   box-sizing: border-box;
@@ -29,6 +29,7 @@
   color: #ffffff;
   text-align: center;
   letter-spacing: -0.02em;
+  align-self: center;
 }
 
 .button-bar {
@@ -36,6 +37,7 @@
   justify-content: center;
   align-items: center;
   gap: 1rem;
+  align-self: center;
 }
 
 :host ::ng-deep .tab-btn.mat-mdc-raised-button {

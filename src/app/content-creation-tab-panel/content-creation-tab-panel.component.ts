@@ -1,9 +1,10 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
+import { ContentControlsPanelComponent } from '../content-controls-panel';
 
 @Component({
   selector: 'app-content-creation-tab-panel',
-  imports: [MatButtonModule],
+  imports: [MatButtonModule, ContentControlsPanelComponent],
   templateUrl: './content-creation-tab-panel.component.html',
   styleUrl: './content-creation-tab-panel.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
