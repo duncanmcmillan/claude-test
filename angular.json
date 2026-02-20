@@ -6,7 +6,7 @@
   },
   "newProjectRoot": "projects",
   "projects": {
-    "project-2": {
+    "claude-test": {
       "projectType": "application",
       "schematics": {
         "@schematics/angular:component": {
@@ -61,10 +61,10 @@
           "builder": "@angular/build:dev-server",
           "configurations": {
             "production": {
-              "buildTarget": "project-2:build:production"
+              "buildTarget": "claude-test:build:production"
             },
             "development": {
-              "buildTarget": "project-2:build:development"
+              "buildTarget": "claude-test:build:development"
             }
           },
           "defaultConfiguration": "development"
