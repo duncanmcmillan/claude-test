@@ -149,3 +149,50 @@ Report findings with file:line references.
 - Use `disable-model-invocation: true` for anything with side effects (deploys, messages, production changes)
 - Commit `.claude/skills/` to version control to share skills with your team
 - Keep `SKILL.md` focused; move reference material to supporting files in the same directory
+
+---
+
+## 3. What Claude Code Can Do
+
+Here's a summary of what Claude Code can do:
+  Code Editing & Development
+
+  - Read and understand your entire codebase
+  - Edit multiple files simultaneously from plain language descriptions
+  - Build features, fix bugs, and refactor code
+
+  Version Control
+
+  - Stage files, write commit messages, create branches and PRs
+  - Resolve merge conflicts
+  - Integrate with GitHub Actions / GitLab CI/CD
+
+  Testing & Debugging
+
+  - Write and run tests, fix failing ones
+  - Trace issues through the codebase and implement fixes
+  - Debug live web apps via Chrome integration
+
+  Automation
+
+  - Run lint/format checks automatically after edits
+  - Execute shell commands via hooks before/after actions
+  - Automate repetitive tasks headlessly via CLI scripting
+
+  Customization & Extension
+
+  - CLAUDE.md — set project-specific coding standards and instructions that persist across sessions
+  - Custom slash commands — create reusable workflows (e.g. /review-pr)
+  - MCP (Model Context Protocol) — connect external tools like Jira, Slack, databases, and custom APIs
+
+  Multi-Agent & Team Features
+
+  - Spawn multiple agents working on different parts of a codebase simultaneously
+  - Build custom AI agents using the Agent SDK
+
+  IDE & Platform Integration
+
+  - VS Code extension, JetBrains plugin, desktop app, web interface, iOS app
+  - Works in CI/CD pipelines, terminal, or browser
+
+  In short — it can handle most day-to-day software engineering tasks from the terminal, with deep awareness of your project's context
