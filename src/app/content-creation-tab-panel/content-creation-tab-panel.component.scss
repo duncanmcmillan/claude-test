@@ -45,6 +45,8 @@
 .content-workspace {
   display: flex;
   flex-direction: row;
+  justify-content: space-between;
+  align-items: flex-start;
   flex: 1;
   width: 100%;
   min-height: 0;
