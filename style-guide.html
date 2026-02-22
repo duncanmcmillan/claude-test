@@ -1,0 +1,2288 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Style Guide</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@100;200;300;400;500&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+  <style>
+    /* ─────────────────────────────────────────────
+       RESET & BASE
+    ───────────────────────────────────────────── */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: 'Roboto', 'Helvetica Neue', sans-serif;
+      font-weight: 300;
+      line-height: 1.6;
+    }
+
+    /* ─────────────────────────────────────────────
+       SECTION WRAPPER
+    ───────────────────────────────────────────── */
+    .theme-section {
+      min-height: 100vh;
+      padding: 64px 48px;
+    }
+
+    /* ─────────────────────────────────────────────
+       DARK THEME TOKENS
+    ───────────────────────────────────────────── */
+    .dark {
+      --bg-base:       #0a0a0a;
+      --bg-surface:    #111111;
+      --bg-elevated:   #1a1a1a;
+      --bg-hover:      #1f1f1f;
+      --bg-active:     #242424;
+
+      --border-subtle:  rgba(255, 255, 255, 0.06);
+      --border-default: rgba(255, 255, 255, 0.10);
+      --border-strong:  rgba(255, 255, 255, 0.18);
+
+      --primary:        #f57c28;
+      --primary-muted:  #c76120;
+      --primary-dim:    rgba(245, 124, 40, 0.12);
+      --primary-hover:  rgba(245, 124, 40, 0.18);
+
+      --text-primary:   #ebebeb;
+      --text-secondary: #909090;
+      --text-tertiary:  #5c5c5c;
+      --text-on-primary: #0a0a0a;
+
+      --success:        #4caf6a;
+      --warning:        #e0a030;
+      --danger:         #e05a5a;
+      --info:           #5a9fe0;
+
+      --success-dim:    rgba(76, 175, 106, 0.12);
+      --warning-dim:    rgba(224, 160, 48, 0.12);
+      --danger-dim:     rgba(224, 90, 90, 0.12);
+      --info-dim:       rgba(90, 159, 224, 0.12);
+
+      --radius-sm:    4px;
+      --radius-md:    8px;
+      --radius-lg:    12px;
+      --radius-xl:    16px;
+      --radius-pill:  999px;
+
+      --shadow-sm: 0 1px 3px rgba(0,0,0,0.5), 0 1px 2px rgba(0,0,0,0.4);
+      --shadow-md: 0 4px 12px rgba(0,0,0,0.6), 0 2px 4px rgba(0,0,0,0.4);
+      --shadow-lg: 0 8px 32px rgba(0,0,0,0.7), 0 4px 8px rgba(0,0,0,0.4);
+
+      background: var(--bg-base);
+      color: var(--text-primary);
+    }
+
+    /* ─────────────────────────────────────────────
+       LIGHT THEME TOKENS
+    ───────────────────────────────────────────── */
+    .light {
+      --bg-base:       #f6f6f4;
+      --bg-surface:    #ffffff;
+      --bg-elevated:   #f0ede8;
+      --bg-hover:      #ece9e3;
+      --bg-active:     #e4e0d8;
+
+      --border-subtle:  rgba(0, 0, 0, 0.05);
+      --border-default: rgba(0, 0, 0, 0.09);
+      --border-strong:  rgba(0, 0, 0, 0.18);
+
+      --primary:        #c85a0a;
+      --primary-muted:  #a34508;
+      --primary-dim:    rgba(200, 90, 10, 0.08);
+      --primary-hover:  rgba(200, 90, 10, 0.13);
+
+      --text-primary:   #1a1a1a;
+      --text-secondary: #6a6a6a;
+      --text-tertiary:  #a0a0a0;
+      --text-on-primary: #ffffff;
+
+      --success:        #2e7d4f;
+      --warning:        #9a6800;
+      --danger:         #c0392b;
+      --info:           #1a6fa8;
+
+      --success-dim:    rgba(46, 125, 79, 0.08);
+      --warning-dim:    rgba(154, 104, 0, 0.08);
+      --danger-dim:     rgba(192, 57, 43, 0.08);
+      --info-dim:       rgba(26, 111, 168, 0.08);
+
+      --radius-sm:    4px;
+      --radius-md:    8px;
+      --radius-lg:    12px;
+      --radius-xl:    16px;
+      --radius-pill:  999px;
+
+      --shadow-sm: 0 1px 3px rgba(0,0,0,0.08), 0 1px 2px rgba(0,0,0,0.06);
+      --shadow-md: 0 4px 12px rgba(0,0,0,0.10), 0 2px 4px rgba(0,0,0,0.06);
+      --shadow-lg: 0 8px 32px rgba(0,0,0,0.12), 0 4px 8px rgba(0,0,0,0.06);
+
+      background: var(--bg-base);
+      color: var(--text-primary);
+    }
+
+    /* ─────────────────────────────────────────────
+       DIVIDER BETWEEN THEMES
+    ───────────────────────────────────────────── */
+    .theme-divider {
+      height: 2px;
+      background: linear-gradient(to right, transparent, rgba(128,128,128,0.3), transparent);
+    }
+
+    /* ─────────────────────────────────────────────
+       LAYOUT
+    ───────────────────────────────────────────── */
+    .sg-container {
+      max-width: 1100px;
+      margin: 0 auto;
+    }
+
+    .sg-section {
+      margin-bottom: 72px;
+    }
+
+    .sg-section-header {
+      font-size: 0.65rem;
+      font-weight: 400;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--text-tertiary);
+      margin-bottom: 24px;
+      padding-bottom: 12px;
+      border-bottom: 1px solid var(--border-subtle);
+    }
+
+    /* ─────────────────────────────────────────────
+       PAGE HEADER
+    ───────────────────────────────────────────── */
+    .sg-page-header {
+      margin-bottom: 64px;
+    }
+
+    .sg-page-title {
+      font-size: 2rem;
+      font-weight: 200;
+      letter-spacing: -0.03em;
+      color: var(--text-primary);
+      line-height: 1.1;
+    }
+
+    .sg-page-title span {
+      color: var(--primary);
+    }
+
+    .sg-page-subtitle {
+      font-size: 0.85rem;
+      font-weight: 300;
+      color: var(--text-secondary);
+      margin-top: 8px;
+      letter-spacing: 0.01em;
+    }
+
+    .sg-theme-label {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 0.65rem;
+      font-weight: 400;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--text-tertiary);
+      margin-bottom: 20px;
+    }
+
+    .sg-theme-label-dot {
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: var(--primary);
+    }
+
+    /* ─────────────────────────────────────────────
+       COLOR SWATCHES
+    ───────────────────────────────────────────── */
+    .color-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+      gap: 12px;
+    }
+
+    .color-swatch {
+      border-radius: var(--radius-md);
+      overflow: hidden;
+      border: 1px solid var(--border-subtle);
+    }
+
+    .swatch-preview {
+      height: 64px;
+    }
+
+    .swatch-meta {
+      padding: 10px 12px;
+      background: var(--bg-surface);
+    }
+
+    .swatch-name {
+      font-size: 0.72rem;
+      font-weight: 300;
+      color: var(--text-primary);
+      display: block;
+      margin-bottom: 2px;
+    }
+
+    .swatch-value {
+      font-size: 0.65rem;
+      font-weight: 300;
+      color: var(--text-tertiary);
+      font-family: 'Courier New', monospace;
+    }
+
+    /* ─────────────────────────────────────────────
+       TYPOGRAPHY
+    ───────────────────────────────────────────── */
+    .type-scale {
+      display: flex;
+      flex-direction: column;
+      gap: 24px;
+    }
+
+    .type-row {
+      display: flex;
+      align-items: baseline;
+      gap: 24px;
+      padding: 16px 0;
+      border-bottom: 1px solid var(--border-subtle);
+    }
+
+    .type-row:last-child { border-bottom: none; }
+
+    .type-meta {
+      min-width: 160px;
+      flex-shrink: 0;
+    }
+
+    .type-label {
+      font-size: 0.65rem;
+      font-weight: 400;
+      color: var(--text-tertiary);
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      display: block;
+    }
+
+    .type-spec {
+      font-size: 0.65rem;
+      font-weight: 300;
+      color: var(--text-tertiary);
+      font-family: 'Courier New', monospace;
+      margin-top: 4px;
+      display: block;
+    }
+
+    .t-display   { font-size: 2.5rem;  font-weight: 200; letter-spacing: -0.04em; color: var(--text-primary); }
+    .t-h1        { font-size: 2rem;    font-weight: 300; letter-spacing: -0.03em; color: var(--text-primary); }
+    .t-h2        { font-size: 1.5rem;  font-weight: 300; letter-spacing: -0.02em; color: var(--text-primary); }
+    .t-h3        { font-size: 1.125rem;font-weight: 300; letter-spacing: -0.01em; color: var(--text-primary); }
+    .t-h4        { font-size: 0.875rem;font-weight: 400; letter-spacing: 0em;     color: var(--text-primary); }
+    .t-body      { font-size: 0.875rem;font-weight: 300; color: var(--text-primary); }
+    .t-small     { font-size: 0.75rem; font-weight: 300; color: var(--text-secondary); }
+    .t-caption   { font-size: 0.65rem; font-weight: 300; color: var(--text-tertiary); letter-spacing: 0.04em; }
+    .t-overline  { font-size: 0.65rem; font-weight: 400; color: var(--text-tertiary); letter-spacing: 0.18em; text-transform: uppercase; }
+    .t-code      { font-size: 0.8rem;  font-weight: 400; color: var(--primary); font-family: 'Courier New', monospace; }
+
+    /* ─────────────────────────────────────────────
+       BUTTONS
+    ───────────────────────────────────────────── */
+    .btn-row {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 16px;
+    }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      font-family: 'Roboto', sans-serif;
+      font-weight: 300;
+      font-size: 0.8rem;
+      letter-spacing: 0.04em;
+      padding: 8px 18px;
+      border-radius: var(--radius-md);
+      border: 1px solid transparent;
+      cursor: pointer;
+      transition: background 0.18s ease, color 0.18s ease, border-color 0.18s ease, box-shadow 0.18s ease, transform 0.12s ease;
+      text-decoration: none;
+      line-height: 1;
+      white-space: nowrap;
+      outline: none;
+    }
+
+    .btn:active { transform: translateY(1px); }
+
+    /* Primary */
+    .btn-primary {
+      background: var(--primary);
+      color: var(--text-on-primary);
+      border-color: var(--primary);
+    }
+    .btn-primary:hover {
+      background: var(--primary-muted);
+      border-color: var(--primary-muted);
+      box-shadow: var(--shadow-sm);
+    }
+
+    /* Secondary / outlined */
+    .btn-secondary {
+      background: transparent;
+      color: var(--text-primary);
+      border-color: var(--border-strong);
+    }
+    .btn-secondary:hover {
+      background: var(--bg-hover);
+      border-color: var(--border-strong);
+    }
+
+    /* Ghost */
+    .btn-ghost {
+      background: transparent;
+      color: var(--text-secondary);
+      border-color: transparent;
+    }
+    .btn-ghost:hover {
+      background: var(--bg-hover);
+      color: var(--text-primary);
+    }
+
+    /* Subtle / tinted */
+    .btn-subtle {
+      background: var(--primary-dim);
+      color: var(--primary);
+      border-color: transparent;
+    }
+    .btn-subtle:hover {
+      background: var(--primary-hover);
+    }
+
+    /* Danger */
+    .btn-danger {
+      background: var(--danger-dim);
+      color: var(--danger);
+      border-color: transparent;
+    }
+    .btn-danger:hover {
+      background: var(--danger);
+      color: #fff;
+    }
+
+    /* Sizes */
+    .btn-sm {
+      font-size: 0.72rem;
+      padding: 5px 12px;
+      border-radius: var(--radius-sm);
+    }
+
+    .btn-lg {
+      font-size: 0.875rem;
+      font-weight: 300;
+      padding: 12px 28px;
+      border-radius: var(--radius-lg);
+    }
+
+    /* Icon button */
+    .btn-icon {
+      padding: 8px;
+      border-radius: var(--radius-md);
+      line-height: 0;
+    }
+
+    .btn .material-icons { font-size: 16px; }
+
+    /* ─────────────────────────────────────────────
+       INPUTS
+    ───────────────────────────────────────────── */
+    .input-group {
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+      max-width: 440px;
+    }
+
+    .input-row { display: flex; flex-direction: column; gap: 6px; }
+
+    .input-label {
+      font-size: 0.7rem;
+      font-weight: 300;
+      color: var(--text-secondary);
+      letter-spacing: 0.04em;
+    }
+
+    .input {
+      font-family: 'Roboto', sans-serif;
+      font-weight: 300;
+      font-size: 0.85rem;
+      color: var(--text-primary);
+      background: var(--bg-surface);
+      border: 1px solid var(--border-default);
+      border-radius: var(--radius-md);
+      padding: 9px 14px;
+      outline: none;
+      transition: border-color 0.18s ease, box-shadow 0.18s ease, background 0.18s ease;
+      width: 100%;
+    }
+
+    .input::placeholder { color: var(--text-tertiary); font-weight: 300; }
+
+    .input:hover { border-color: var(--border-strong); }
+
+    .input:focus {
+      border-color: var(--primary);
+      box-shadow: 0 0 0 3px var(--primary-dim);
+    }
+
+    .input-error {
+      border-color: var(--danger);
+      background: var(--danger-dim);
+    }
+
+    .input-error:focus {
+      box-shadow: 0 0 0 3px rgba(224, 90, 90, 0.12);
+    }
+
+    .input-hint {
+      font-size: 0.65rem;
+      font-weight: 300;
+      color: var(--text-tertiary);
+      margin-top: 2px;
+    }
+
+    .input-hint.error { color: var(--danger); }
+
+    .select {
+      font-family: 'Roboto', sans-serif;
+      font-weight: 300;
+      font-size: 0.85rem;
+      color: var(--text-primary);
+      background: var(--bg-surface);
+      border: 1px solid var(--border-default);
+      border-radius: var(--radius-md);
+      padding: 9px 14px;
+      outline: none;
+      cursor: pointer;
+      width: 100%;
+      transition: border-color 0.18s ease;
+      -webkit-appearance: none;
+    }
+    .select:hover { border-color: var(--border-strong); }
+    .select:focus { border-color: var(--primary); box-shadow: 0 0 0 3px var(--primary-dim); }
+
+    /* ─────────────────────────────────────────────
+       CARDS
+    ───────────────────────────────────────────── */
+    .card-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+      gap: 16px;
+    }
+
+    .card {
+      background: var(--bg-surface);
+      border: 1px solid var(--border-subtle);
+      border-radius: var(--radius-xl);
+      padding: 24px;
+      transition: background 0.18s ease, border-color 0.18s ease, box-shadow 0.18s ease, transform 0.15s ease;
+    }
+
+    .card:hover {
+      background: var(--bg-hover);
+      border-color: var(--border-default);
+      box-shadow: var(--shadow-md);
+      transform: translateY(-1px);
+    }
+
+    .card-elevated {
+      background: var(--bg-elevated);
+      border-color: var(--border-default);
+      box-shadow: var(--shadow-sm);
+    }
+
+    .card-highlighted {
+      border-color: var(--primary);
+      background: var(--primary-dim);
+    }
+
+    .card-icon {
+      width: 36px;
+      height: 36px;
+      border-radius: var(--radius-md);
+      background: var(--primary-dim);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: 16px;
+    }
+
+    .card-icon .material-icons {
+      font-size: 18px;
+      color: var(--primary);
+    }
+
+    .card-title {
+      font-size: 0.875rem;
+      font-weight: 300;
+      color: var(--text-primary);
+      margin-bottom: 6px;
+      letter-spacing: -0.01em;
+    }
+
+    .card-body {
+      font-size: 0.78rem;
+      font-weight: 300;
+      color: var(--text-secondary);
+      line-height: 1.55;
+    }
+
+    .card-footer {
+      margin-top: 20px;
+      padding-top: 16px;
+      border-top: 1px solid var(--border-subtle);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .card-meta {
+      font-size: 0.65rem;
+      font-weight: 300;
+      color: var(--text-tertiary);
+    }
+
+    /* ─────────────────────────────────────────────
+       BADGES & TAGS
+    ───────────────────────────────────────────── */
+    .badge-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      align-items: center;
+      margin-bottom: 12px;
+    }
+
+    .badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      font-size: 0.65rem;
+      font-weight: 300;
+      letter-spacing: 0.04em;
+      padding: 3px 10px;
+      border-radius: var(--radius-pill);
+      border: 1px solid transparent;
+    }
+
+    .badge-primary   { background: var(--primary-dim);  color: var(--primary);  border-color: rgba(245,124,40,0.2); }
+    .badge-success   { background: var(--success-dim);  color: var(--success);  border-color: rgba(76,175,106,0.2); }
+    .badge-warning   { background: var(--warning-dim);  color: var(--warning);  border-color: rgba(224,160,48,0.2); }
+    .badge-danger    { background: var(--danger-dim);   color: var(--danger);   border-color: rgba(224,90,90,0.2); }
+    .badge-info      { background: var(--info-dim);     color: var(--info);     border-color: rgba(90,159,224,0.2); }
+    .badge-neutral   { background: var(--bg-elevated);  color: var(--text-secondary); border-color: var(--border-default); }
+
+    .tag {
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      font-size: 0.72rem;
+      font-weight: 300;
+      padding: 5px 12px;
+      border-radius: var(--radius-sm);
+      background: var(--bg-elevated);
+      border: 1px solid var(--border-default);
+      color: var(--text-secondary);
+      cursor: default;
+      transition: background 0.15s ease, color 0.15s ease;
+    }
+
+    .tag:hover {
+      background: var(--bg-hover);
+      color: var(--text-primary);
+    }
+
+    .tag .material-icons { font-size: 13px; color: var(--text-tertiary); }
+
+    /* ─────────────────────────────────────────────
+       TABLE
+    ───────────────────────────────────────────── */
+    .sg-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 0.8rem;
+      font-weight: 300;
+    }
+
+    .sg-table thead tr {
+      border-bottom: 1px solid var(--border-default);
+    }
+
+    .sg-table th {
+      font-size: 0.65rem;
+      font-weight: 300;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--text-tertiary);
+      padding: 10px 16px;
+      text-align: left;
+    }
+
+    .sg-table td {
+      padding: 12px 16px;
+      color: var(--text-secondary);
+      border-bottom: 1px solid var(--border-subtle);
+      font-weight: 200;
+    }
+
+    .sg-table tbody tr {
+      transition: background 0.15s ease;
+    }
+
+    .sg-table tbody tr:hover {
+      background: var(--bg-hover);
+    }
+
+    .sg-table tbody tr:hover td { color: var(--text-primary); }
+
+    .sg-table td:first-child { color: var(--text-primary); font-weight: 300; }
+
+    /* ─────────────────────────────────────────────
+       ALERTS / BANNERS
+    ───────────────────────────────────────────── */
+    .alert {
+      display: flex;
+      align-items: flex-start;
+      gap: 12px;
+      padding: 14px 18px;
+      border-radius: var(--radius-md);
+      border: 1px solid transparent;
+      margin-bottom: 10px;
+    }
+
+    .alert .material-icons { font-size: 18px; margin-top: 1px; flex-shrink: 0; }
+
+    .alert-content { flex: 1; }
+    .alert-title { font-size: 0.8rem; font-weight: 300; margin-bottom: 2px; }
+    .alert-body  { font-size: 0.72rem; font-weight: 300; opacity: 0.85; line-height: 1.4; }
+
+    .alert-success { background: var(--success-dim); border-color: rgba(76,175,106,0.2); color: var(--success); }
+    .alert-warning { background: var(--warning-dim); border-color: rgba(224,160,48,0.2); color: var(--warning); }
+    .alert-danger  { background: var(--danger-dim);  border-color: rgba(224,90,90,0.2);  color: var(--danger); }
+    .alert-info    { background: var(--info-dim);    border-color: rgba(90,159,224,0.2); color: var(--info); }
+
+    /* ─────────────────────────────────────────────
+       AVATARS
+    ───────────────────────────────────────────── */
+    .avatar-row {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .avatar {
+      border-radius: 50%;
+      background: var(--primary-dim);
+      color: var(--primary);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 300;
+      letter-spacing: -0.02em;
+      border: 1px solid var(--border-subtle);
+      flex-shrink: 0;
+    }
+
+    .avatar-xs { width: 24px; height: 24px; font-size: 0.6rem; }
+    .avatar-sm { width: 32px; height: 32px; font-size: 0.72rem; }
+    .avatar-md { width: 40px; height: 40px; font-size: 0.875rem; }
+    .avatar-lg { width: 52px; height: 52px; font-size: 1.1rem; }
+    .avatar-xl { width: 68px; height: 68px; font-size: 1.4rem; }
+
+    /* ─────────────────────────────────────────────
+       SPACING SCALE
+    ───────────────────────────────────────────── */
+    .spacing-grid {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .spacing-row {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+    }
+
+    .spacing-label {
+      min-width: 72px;
+      font-size: 0.65rem;
+      font-weight: 300;
+      color: var(--text-tertiary);
+      font-family: 'Courier New', monospace;
+    }
+
+    .spacing-bar {
+      background: var(--primary);
+      opacity: 0.5;
+      height: 8px;
+      border-radius: 2px;
+    }
+
+    .spacing-val {
+      font-size: 0.65rem;
+      font-weight: 300;
+      color: var(--text-tertiary);
+    }
+
+    /* ─────────────────────────────────────────────
+       BORDER RADIUS SCALE
+    ───────────────────────────────────────────── */
+    .radius-grid {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 16px;
+    }
+
+    .radius-item {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .radius-preview {
+      width: 56px;
+      height: 56px;
+      background: var(--primary-dim);
+      border: 1px solid rgba(245,124,40,0.3);
+    }
+
+    .radius-name {
+      font-size: 0.65rem;
+      font-weight: 300;
+      color: var(--text-tertiary);
+      font-family: 'Courier New', monospace;
+    }
+
+    /* ─────────────────────────────────────────────
+       SHADOW SCALE
+    ───────────────────────────────────────────── */
+    .shadow-grid {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 24px;
+      align-items: flex-end;
+    }
+
+    .shadow-item {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .shadow-preview {
+      width: 80px;
+      height: 56px;
+      background: var(--bg-surface);
+      border-radius: var(--radius-lg);
+      border: 1px solid var(--border-subtle);
+    }
+
+    .shadow-sm-preview  { box-shadow: var(--shadow-sm); }
+    .shadow-md-preview  { box-shadow: var(--shadow-md); }
+    .shadow-lg-preview  { box-shadow: var(--shadow-lg); }
+
+    .shadow-name {
+      font-size: 0.65rem;
+      font-weight: 300;
+      color: var(--text-tertiary);
+    }
+
+    /* ─────────────────────────────────────────────
+       LIST ITEM
+    ───────────────────────────────────────────── */
+    .sg-list {
+      list-style: none;
+      border: 1px solid var(--border-subtle);
+      border-radius: var(--radius-lg);
+      overflow: hidden;
+    }
+
+    .sg-list-item {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      padding: 14px 18px;
+      border-bottom: 1px solid var(--border-subtle);
+      transition: background 0.15s ease;
+      cursor: default;
+    }
+
+    .sg-list-item:last-child { border-bottom: none; }
+    .sg-list-item:hover { background: var(--bg-hover); }
+
+    .list-item-icon {
+      width: 32px;
+      height: 32px;
+      border-radius: var(--radius-md);
+      background: var(--primary-dim);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+
+    .list-item-icon .material-icons { font-size: 16px; color: var(--primary); }
+
+    .list-item-content { flex: 1; min-width: 0; }
+
+    .list-item-title {
+      font-size: 0.82rem;
+      font-weight: 300;
+      color: var(--text-primary);
+      display: block;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .list-item-sub {
+      font-size: 0.68rem;
+      font-weight: 200;
+      color: var(--text-tertiary);
+      display: block;
+      margin-top: 1px;
+    }
+
+    .list-item-end {
+      font-size: 0.65rem;
+      font-weight: 300;
+      color: var(--text-tertiary);
+      white-space: nowrap;
+    }
+
+    /* ─────────────────────────────────────────────
+       TABS
+    ───────────────────────────────────────────── */
+    .sg-tabs {
+      display: flex;
+      gap: 2px;
+      background: var(--bg-elevated);
+      border-radius: var(--radius-lg);
+      padding: 4px;
+      border: 1px solid var(--border-subtle);
+      width: fit-content;
+    }
+
+    .sg-tab {
+      font-family: 'Roboto', sans-serif;
+      font-size: 0.78rem;
+      font-weight: 300;
+      color: var(--text-secondary);
+      padding: 7px 18px;
+      border-radius: var(--radius-md);
+      cursor: pointer;
+      transition: background 0.15s ease, color 0.15s ease;
+      border: none;
+      background: none;
+    }
+
+    .sg-tab:hover { color: var(--text-primary); background: var(--bg-hover); }
+
+    .sg-tab.active {
+      background: var(--bg-surface);
+      color: var(--text-primary);
+      box-shadow: var(--shadow-sm);
+    }
+
+    /* ─────────────────────────────────────────────
+       BREADCRUMB
+    ───────────────────────────────────────────── */
+    .breadcrumb {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 0.75rem;
+      font-weight: 300;
+    }
+
+    .breadcrumb a {
+      color: var(--text-secondary);
+      text-decoration: none;
+      transition: color 0.15s ease;
+    }
+
+    .breadcrumb a:hover { color: var(--primary); }
+
+    .breadcrumb-sep {
+      color: var(--text-tertiary);
+      font-size: 0.65rem;
+    }
+
+    .breadcrumb-current {
+      color: var(--text-primary);
+    }
+
+    /* ─────────────────────────────────────────────
+       PROGRESS / LOADING
+    ───────────────────────────────────────────── */
+    .progress-group { display: flex; flex-direction: column; gap: 12px; max-width: 440px; }
+
+    .progress-row { display: flex; flex-direction: column; gap: 5px; }
+
+    .progress-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .progress-label {
+      font-size: 0.72rem;
+      font-weight: 300;
+      color: var(--text-secondary);
+    }
+
+    .progress-value {
+      font-size: 0.65rem;
+      font-weight: 300;
+      color: var(--text-tertiary);
+    }
+
+    .progress-track {
+      height: 4px;
+      background: var(--bg-elevated);
+      border-radius: var(--radius-pill);
+      overflow: hidden;
+    }
+
+    .progress-fill {
+      height: 100%;
+      border-radius: var(--radius-pill);
+      background: var(--primary);
+      transition: width 0.3s ease;
+    }
+
+    .progress-fill.success { background: var(--success); }
+    .progress-fill.warning { background: var(--warning); }
+    .progress-fill.danger  { background: var(--danger); }
+
+    /* ─────────────────────────────────────────────
+       DIVIDER
+    ───────────────────────────────────────────── */
+    .sg-divider {
+      border: none;
+      border-top: 1px solid var(--border-subtle);
+      margin: 0;
+    }
+
+    /* ─────────────────────────────────────────────
+       TOGGLE / CHECKBOX
+    ───────────────────────────────────────────── */
+    .toggle-row {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 12px;
+    }
+
+    .toggle {
+      position: relative;
+      width: 36px;
+      height: 20px;
+      flex-shrink: 0;
+    }
+
+    .toggle input { opacity: 0; width: 0; height: 0; position: absolute; }
+
+    .toggle-track {
+      position: absolute;
+      inset: 0;
+      background: var(--border-default);
+      border-radius: var(--radius-pill);
+      transition: background 0.2s ease;
+      border: 1px solid var(--border-subtle);
+    }
+
+    .toggle-thumb {
+      position: absolute;
+      top: 3px;
+      left: 3px;
+      width: 14px;
+      height: 14px;
+      background: var(--text-secondary);
+      border-radius: 50%;
+      transition: transform 0.2s ease, background 0.2s ease;
+    }
+
+    .toggle input:checked + .toggle-track { background: var(--primary); border-color: var(--primary); }
+    .toggle input:checked ~ .toggle-thumb { transform: translateX(16px); background: var(--text-on-primary); }
+
+    .toggle-label {
+      font-size: 0.8rem;
+      font-weight: 300;
+      color: var(--text-secondary);
+    }
+
+    /* ─────────────────────────────────────────────
+       ICONS DISPLAY
+    ───────────────────────────────────────────── */
+    .icon-grid {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+    }
+
+    .icon-item {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 6px;
+      padding: 14px 10px;
+      border-radius: var(--radius-md);
+      border: 1px solid var(--border-subtle);
+      background: var(--bg-surface);
+      min-width: 68px;
+      transition: background 0.15s ease, border-color 0.15s ease;
+      cursor: default;
+    }
+
+    .icon-item:hover {
+      background: var(--bg-hover);
+      border-color: var(--border-default);
+    }
+
+    .icon-item .material-icons { font-size: 22px; color: var(--text-secondary); }
+    .icon-item:hover .material-icons { color: var(--primary); }
+
+    .icon-name {
+      font-size: 0.58rem;
+      font-weight: 300;
+      color: var(--text-tertiary);
+      text-align: center;
+      line-height: 1.2;
+    }
+
+    /* ─────────────────────────────────────────────
+       2-COL LAYOUT HELPER
+    ───────────────────────────────────────────── */
+    .two-col {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 32px;
+    }
+
+    @media (max-width: 700px) {
+      .two-col { grid-template-columns: 1fr; }
+      .theme-section { padding: 40px 24px; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- ══════════════════════════════════════════
+     DARK THEME
+══════════════════════════════════════════ -->
+<div class="theme-section dark">
+  <div class="sg-container">
+
+    <!-- Page header -->
+    <div class="sg-page-header">
+      <div class="sg-theme-label">
+        <span class="sg-theme-label-dot"></span>
+        Dark Theme
+      </div>
+      <h1 class="sg-page-title">Design <span>System</span></h1>
+      <p class="sg-page-subtitle">Angular Material · Roboto · Black &amp; Orange</p>
+    </div>
+
+    <!-- ── COLORS ── -->
+    <div class="sg-section">
+      <div class="sg-section-header">Colors</div>
+      <div class="color-grid">
+        <div class="color-swatch">
+          <div class="swatch-preview" style="background:#f57c28"></div>
+          <div class="swatch-meta">
+            <span class="swatch-name">Primary</span>
+            <span class="swatch-value">#f57c28</span>
+          </div>
+        </div>
+        <div class="color-swatch">
+          <div class="swatch-preview" style="background:#c76120"></div>
+          <div class="swatch-meta">
+            <span class="swatch-name">Primary Muted</span>
+            <span class="swatch-value">#c76120</span>
+          </div>
+        </div>
+        <div class="color-swatch">
+          <div class="swatch-preview" style="background:rgba(245,124,40,0.12); border:1px solid rgba(245,124,40,0.2)"></div>
+          <div class="swatch-meta">
+            <span class="swatch-name">Primary Dim</span>
+            <span class="swatch-value">rgba(245,124,40,.12)</span>
+          </div>
+        </div>
+        <div class="color-swatch">
+          <div class="swatch-preview" style="background:#0a0a0a"></div>
+          <div class="swatch-meta">
+            <span class="swatch-name">BG Base</span>
+            <span class="swatch-value">#0a0a0a</span>
+          </div>
+        </div>
+        <div class="color-swatch">
+          <div class="swatch-preview" style="background:#111111"></div>
+          <div class="swatch-meta">
+            <span class="swatch-name">BG Surface</span>
+            <span class="swatch-value">#111111</span>
+          </div>
+        </div>
+        <div class="color-swatch">
+          <div class="swatch-preview" style="background:#1a1a1a"></div>
+          <div class="swatch-meta">
+            <span class="swatch-name">BG Elevated</span>
+            <span class="swatch-value">#1a1a1a</span>
+          </div>
+        </div>
+        <div class="color-swatch">
+          <div class="swatch-preview" style="background:#ebebeb"></div>
+          <div class="swatch-meta">
+            <span class="swatch-name">Text Primary</span>
+            <span class="swatch-value">#ebebeb</span>
+          </div>
+        </div>
+        <div class="color-swatch">
+          <div class="swatch-preview" style="background:#909090"></div>
+          <div class="swatch-meta">
+            <span class="swatch-name">Text Secondary</span>
+            <span class="swatch-value">#909090</span>
+          </div>
+        </div>
+        <div class="color-swatch">
+          <div class="swatch-preview" style="background:#4caf6a"></div>
+          <div class="swatch-meta">
+            <span class="swatch-name">Success</span>
+            <span class="swatch-value">#4caf6a</span>
+          </div>
+        </div>
+        <div class="color-swatch">
+          <div class="swatch-preview" style="background:#e0a030"></div>
+          <div class="swatch-meta">
+            <span class="swatch-name">Warning</span>
+            <span class="swatch-value">#e0a030</span>
+          </div>
+        </div>
+        <div class="color-swatch">
+          <div class="swatch-preview" style="background:#e05a5a"></div>
+          <div class="swatch-meta">
+            <span class="swatch-name">Danger</span>
+            <span class="swatch-value">#e05a5a</span>
+          </div>
+        </div>
+        <div class="color-swatch">
+          <div class="swatch-preview" style="background:#5a9fe0"></div>
+          <div class="swatch-meta">
+            <span class="swatch-name">Info</span>
+            <span class="swatch-value">#5a9fe0</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ── TYPOGRAPHY ── -->
+    <div class="sg-section">
+      <div class="sg-section-header">Typography</div>
+      <div class="type-scale">
+        <div class="type-row">
+          <div class="type-meta">
+            <span class="type-label">Display</span>
+            <span class="type-spec">2.5rem / 200</span>
+          </div>
+          <span class="t-display">The quick fox</span>
+        </div>
+        <div class="type-row">
+          <div class="type-meta">
+            <span class="type-label">Heading 1</span>
+            <span class="type-spec">2rem / 300</span>
+          </div>
+          <span class="t-h1">Content Studio</span>
+        </div>
+        <div class="type-row">
+          <div class="type-meta">
+            <span class="type-label">Heading 2</span>
+            <span class="type-spec">1.5rem / 300</span>
+          </div>
+          <span class="t-h2">Distribution Panel</span>
+        </div>
+        <div class="type-row">
+          <div class="type-meta">
+            <span class="type-label">Heading 3</span>
+            <span class="type-spec">1.125rem / 300</span>
+          </div>
+          <span class="t-h3">Preview Controls</span>
+        </div>
+        <div class="type-row">
+          <div class="type-meta">
+            <span class="type-label">Heading 4</span>
+            <span class="type-spec">0.875rem / 400</span>
+          </div>
+          <span class="t-h4">Section title</span>
+        </div>
+        <div class="type-row">
+          <div class="type-meta">
+            <span class="type-label">Body</span>
+            <span class="type-spec">0.875rem / 300</span>
+          </div>
+          <span class="t-body">Regular body text for reading comfort at standard sizes.</span>
+        </div>
+        <div class="type-row">
+          <div class="type-meta">
+            <span class="type-label">Small</span>
+            <span class="type-spec">0.75rem / 300</span>
+          </div>
+          <span class="t-small">Supporting text and metadata</span>
+        </div>
+        <div class="type-row">
+          <div class="type-meta">
+            <span class="type-label">Caption</span>
+            <span class="type-spec">0.65rem / 300</span>
+          </div>
+          <span class="t-caption">Timestamps, hints, auxiliary</span>
+        </div>
+        <div class="type-row">
+          <div class="type-meta">
+            <span class="type-label">Overline</span>
+            <span class="type-spec">0.65rem / 400 / UC</span>
+          </div>
+          <span class="t-overline">Section label</span>
+        </div>
+        <div class="type-row">
+          <div class="type-meta">
+            <span class="type-label">Code</span>
+            <span class="type-spec">0.8rem / mono</span>
+          </div>
+          <span class="t-code">httpResource(url)</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- ── BUTTONS ── -->
+    <div class="sg-section">
+      <div class="sg-section-header">Buttons</div>
+
+      <div class="btn-row">
+        <button class="btn btn-primary">Primary action</button>
+        <button class="btn btn-secondary">Secondary</button>
+        <button class="btn btn-ghost">Ghost</button>
+        <button class="btn btn-subtle">Subtle</button>
+        <button class="btn btn-danger">Delete</button>
+      </div>
+
+      <div class="btn-row">
+        <button class="btn btn-primary btn-sm">Small primary</button>
+        <button class="btn btn-secondary btn-sm">Small secondary</button>
+        <button class="btn btn-ghost btn-sm">Small ghost</button>
+      </div>
+
+      <div class="btn-row">
+        <button class="btn btn-primary btn-lg">Large primary</button>
+        <button class="btn btn-secondary btn-lg">Large secondary</button>
+      </div>
+
+      <div class="btn-row">
+        <button class="btn btn-primary">
+          <span class="material-icons">add</span>
+          With icon
+        </button>
+        <button class="btn btn-secondary">
+          <span class="material-icons">file_download</span>
+          Export
+        </button>
+        <button class="btn btn-ghost btn-icon" title="Settings">
+          <span class="material-icons">settings</span>
+        </button>
+        <button class="btn btn-ghost btn-icon" title="More">
+          <span class="material-icons">more_vert</span>
+        </button>
+        <button class="btn btn-subtle btn-icon" title="Search">
+          <span class="material-icons">search</span>
+        </button>
+      </div>
+    </div>
+
+    <!-- ── INPUTS ── -->
+    <div class="sg-section">
+      <div class="sg-section-header">Inputs</div>
+      <div class="two-col">
+        <div class="input-group">
+          <div class="input-row">
+            <label class="input-label">Default input</label>
+            <input class="input" type="text" placeholder="Enter a value…">
+          </div>
+          <div class="input-row">
+            <label class="input-label">With value</label>
+            <input class="input" type="text" value="Content title draft">
+          </div>
+          <div class="input-row">
+            <label class="input-label">Error state</label>
+            <input class="input input-error" type="text" value="bad@">
+            <span class="input-hint error">Enter a valid email address</span>
+          </div>
+          <div class="input-row">
+            <label class="input-label">Select</label>
+            <select class="select">
+              <option>Blog Post</option>
+              <option>Newsletter</option>
+              <option>Social Media</option>
+            </select>
+          </div>
+          <div class="input-row">
+            <label class="input-label">Textarea</label>
+            <textarea class="input" rows="3" placeholder="Write your content…" style="resize:vertical"></textarea>
+            <span class="input-hint">Max 500 characters</span>
+          </div>
+        </div>
+        <div>
+          <!-- Toggles -->
+          <div style="margin-bottom:24px">
+            <div class="sg-section-header" style="font-size:0.6rem;margin-bottom:16px">Toggles</div>
+            <div class="toggle-row">
+              <label class="toggle">
+                <input type="checkbox" checked>
+                <span class="toggle-track"></span>
+                <span class="toggle-thumb"></span>
+              </label>
+              <span class="toggle-label">Auto-publish enabled</span>
+            </div>
+            <div class="toggle-row">
+              <label class="toggle">
+                <input type="checkbox">
+                <span class="toggle-track"></span>
+                <span class="toggle-thumb"></span>
+              </label>
+              <span class="toggle-label">Email notifications</span>
+            </div>
+            <div class="toggle-row">
+              <label class="toggle">
+                <input type="checkbox" checked>
+                <span class="toggle-track"></span>
+                <span class="toggle-thumb"></span>
+              </label>
+              <span class="toggle-label">Dark mode</span>
+            </div>
+          </div>
+          <!-- Progress -->
+          <div>
+            <div class="sg-section-header" style="font-size:0.6rem;margin-bottom:16px">Progress</div>
+            <div class="progress-group">
+              <div class="progress-row">
+                <div class="progress-header">
+                  <span class="progress-label">Upload progress</span>
+                  <span class="progress-value">72%</span>
+                </div>
+                <div class="progress-track">
+                  <div class="progress-fill" style="width:72%"></div>
+                </div>
+              </div>
+              <div class="progress-row">
+                <div class="progress-header">
+                  <span class="progress-label">Published</span>
+                  <span class="progress-value">48%</span>
+                </div>
+                <div class="progress-track">
+                  <div class="progress-fill success" style="width:48%"></div>
+                </div>
+              </div>
+              <div class="progress-row">
+                <div class="progress-header">
+                  <span class="progress-label">Storage used</span>
+                  <span class="progress-value">91%</span>
+                </div>
+                <div class="progress-track">
+                  <div class="progress-fill danger" style="width:91%"></div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ── BADGES & TAGS ── -->
+    <div class="sg-section">
+      <div class="sg-section-header">Badges &amp; Tags</div>
+      <div class="badge-row" style="margin-bottom:16px">
+        <span class="badge badge-primary">Primary</span>
+        <span class="badge badge-success">Published</span>
+        <span class="badge badge-warning">Pending</span>
+        <span class="badge badge-danger">Failed</span>
+        <span class="badge badge-info">Scheduled</span>
+        <span class="badge badge-neutral">Draft</span>
+      </div>
+      <div class="badge-row">
+        <span class="tag"><span class="material-icons">label</span>Angular</span>
+        <span class="tag"><span class="material-icons">label</span>TypeScript</span>
+        <span class="tag"><span class="material-icons">label</span>Material</span>
+        <span class="tag"><span class="material-icons">label</span>NgRx</span>
+        <span class="tag"><span class="material-icons">label</span>Vitest</span>
+      </div>
+    </div>
+
+    <!-- ── CARDS ── -->
+    <div class="sg-section">
+      <div class="sg-section-header">Cards</div>
+      <div class="card-grid">
+        <div class="card">
+          <div class="card-icon">
+            <span class="material-icons">article</span>
+          </div>
+          <div class="card-title">Default card</div>
+          <div class="card-body">A clean surface for content with subtle border and spacious padding.</div>
+          <div class="card-footer">
+            <span class="card-meta">Updated 2h ago</span>
+            <button class="btn btn-ghost btn-sm">View</button>
+          </div>
+        </div>
+        <div class="card card-elevated">
+          <div class="card-icon">
+            <span class="material-icons">bar_chart</span>
+          </div>
+          <div class="card-title">Elevated card</div>
+          <div class="card-body">Uses a slightly higher surface level with a soft shadow to indicate importance.</div>
+          <div class="card-footer">
+            <span class="card-meta">12 items</span>
+            <button class="btn btn-subtle btn-sm">Inspect</button>
+          </div>
+        </div>
+        <div class="card card-highlighted">
+          <div class="card-icon">
+            <span class="material-icons">star</span>
+          </div>
+          <div class="card-title">Highlighted card</div>
+          <div class="card-body">Primary accent border to draw attention to selected or featured items.</div>
+          <div class="card-footer">
+            <span class="card-meta badge badge-primary" style="padding:2px 8px">Featured</span>
+            <button class="btn btn-primary btn-sm">Open</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ── ALERTS ── -->
+    <div class="sg-section">
+      <div class="sg-section-header">Alerts</div>
+      <div class="alert alert-success">
+        <span class="material-icons">check_circle</span>
+        <div class="alert-content">
+          <div class="alert-title">Content published</div>
+          <div class="alert-body">Your post has been published and is now live.</div>
+        </div>
+      </div>
+      <div class="alert alert-warning">
+        <span class="material-icons">warning</span>
+        <div class="alert-content">
+          <div class="alert-title">Review required</div>
+          <div class="alert-body">This content hasn't been reviewed in 30 days.</div>
+        </div>
+      </div>
+      <div class="alert alert-danger">
+        <span class="material-icons">error</span>
+        <div class="alert-content">
+          <div class="alert-title">Publish failed</div>
+          <div class="alert-body">An error occurred while publishing. Please try again.</div>
+        </div>
+      </div>
+      <div class="alert alert-info">
+        <span class="material-icons">info</span>
+        <div class="alert-content">
+          <div class="alert-title">Scheduled for tomorrow</div>
+          <div class="alert-body">This post will publish on Feb 23 at 09:00.</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ── TABLE ── -->
+    <div class="sg-section">
+      <div class="sg-section-header">Table</div>
+      <table class="sg-table">
+        <thead>
+          <tr>
+            <th>Title</th>
+            <th>Status</th>
+            <th>Author</th>
+            <th>Date</th>
+            <th>Views</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Getting started with Angular signals</td>
+            <td><span class="badge badge-success">Published</span></td>
+            <td>D. McMillan</td>
+            <td>Feb 20, 2026</td>
+            <td>1,842</td>
+          </tr>
+          <tr>
+            <td>NgRx Signal Store patterns</td>
+            <td><span class="badge badge-warning">Pending</span></td>
+            <td>D. McMillan</td>
+            <td>Feb 21, 2026</td>
+            <td>—</td>
+          </tr>
+          <tr>
+            <td>Material 3 theming deep dive</td>
+            <td><span class="badge badge-neutral">Draft</span></td>
+            <td>D. McMillan</td>
+            <td>Feb 22, 2026</td>
+            <td>—</td>
+          </tr>
+          <tr>
+            <td>Vitest setup for Angular 21</td>
+            <td><span class="badge badge-info">Scheduled</span></td>
+            <td>D. McMillan</td>
+            <td>Feb 23, 2026</td>
+            <td>—</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <!-- ── LIST ── -->
+    <div class="sg-section">
+      <div class="sg-section-header">List Items</div>
+      <ul class="sg-list">
+        <li class="sg-list-item">
+          <div class="list-item-icon"><span class="material-icons">description</span></div>
+          <div class="list-item-content">
+            <span class="list-item-title">Angular signals guide</span>
+            <span class="list-item-sub">Published · 1,842 views</span>
+          </div>
+          <span class="list-item-end">Feb 20</span>
+        </li>
+        <li class="sg-list-item">
+          <div class="list-item-icon"><span class="material-icons">send</span></div>
+          <div class="list-item-content">
+            <span class="list-item-title">Weekly newsletter #14</span>
+            <span class="list-item-sub">Sent · 3,200 recipients</span>
+          </div>
+          <span class="list-item-end">Feb 19</span>
+        </li>
+        <li class="sg-list-item">
+          <div class="list-item-icon"><span class="material-icons">schedule</span></div>
+          <div class="list-item-content">
+            <span class="list-item-title">Vitest setup guide</span>
+            <span class="list-item-sub">Scheduled · Feb 23 09:00</span>
+          </div>
+          <span class="list-item-end">Feb 22</span>
+        </li>
+        <li class="sg-list-item">
+          <div class="list-item-icon"><span class="material-icons">edit</span></div>
+          <div class="list-item-content">
+            <span class="list-item-title">Material 3 theming</span>
+            <span class="list-item-sub">Draft · Last edited 4h ago</span>
+          </div>
+          <span class="list-item-end">Feb 22</span>
+        </li>
+      </ul>
+    </div>
+
+    <!-- ── NAVIGATION ELEMENTS ── -->
+    <div class="sg-section">
+      <div class="sg-section-header">Navigation</div>
+      <div style="display:flex;flex-direction:column;gap:20px">
+        <!-- Tabs -->
+        <div>
+          <div style="font-size:0.62rem;font-weight:300;color:var(--text-tertiary);letter-spacing:0.1em;text-transform:uppercase;margin-bottom:10px">Tabs</div>
+          <div class="sg-tabs">
+            <button class="sg-tab active">Overview</button>
+            <button class="sg-tab">Content</button>
+            <button class="sg-tab">Analytics</button>
+            <button class="sg-tab">Settings</button>
+          </div>
+        </div>
+        <!-- Breadcrumb -->
+        <div>
+          <div style="font-size:0.62rem;font-weight:300;color:var(--text-tertiary);letter-spacing:0.1em;text-transform:uppercase;margin-bottom:10px">Breadcrumb</div>
+          <nav class="breadcrumb">
+            <a href="#">Workspace</a>
+            <span class="breadcrumb-sep">›</span>
+            <a href="#">Content</a>
+            <span class="breadcrumb-sep">›</span>
+            <a href="#">Blog</a>
+            <span class="breadcrumb-sep">›</span>
+            <span class="breadcrumb-current">Angular signals guide</span>
+          </nav>
+        </div>
+      </div>
+    </div>
+
+    <!-- ── AVATARS ── -->
+    <div class="sg-section">
+      <div class="sg-section-header">Avatars</div>
+      <div class="avatar-row">
+        <div class="avatar avatar-xs">DM</div>
+        <div class="avatar avatar-sm">DM</div>
+        <div class="avatar avatar-md">DM</div>
+        <div class="avatar avatar-lg">DM</div>
+        <div class="avatar avatar-xl">DM</div>
+      </div>
+    </div>
+
+    <!-- ── ICONS ── -->
+    <div class="sg-section">
+      <div class="sg-section-header">Icons (Material)</div>
+      <div class="icon-grid">
+        <div class="icon-item"><span class="material-icons">article</span><span class="icon-name">article</span></div>
+        <div class="icon-item"><span class="material-icons">send</span><span class="icon-name">send</span></div>
+        <div class="icon-item"><span class="material-icons">bar_chart</span><span class="icon-name">bar_chart</span></div>
+        <div class="icon-item"><span class="material-icons">settings</span><span class="icon-name">settings</span></div>
+        <div class="icon-item"><span class="material-icons">add</span><span class="icon-name">add</span></div>
+        <div class="icon-item"><span class="material-icons">edit</span><span class="icon-name">edit</span></div>
+        <div class="icon-item"><span class="material-icons">delete</span><span class="icon-name">delete</span></div>
+        <div class="icon-item"><span class="material-icons">search</span><span class="icon-name">search</span></div>
+        <div class="icon-item"><span class="material-icons">filter_list</span><span class="icon-name">filter_list</span></div>
+        <div class="icon-item"><span class="material-icons">more_vert</span><span class="icon-name">more_vert</span></div>
+        <div class="icon-item"><span class="material-icons">schedule</span><span class="icon-name">schedule</span></div>
+        <div class="icon-item"><span class="material-icons">check_circle</span><span class="icon-name">check_circle</span></div>
+        <div class="icon-item"><span class="material-icons">error</span><span class="icon-name">error</span></div>
+        <div class="icon-item"><span class="material-icons">warning</span><span class="icon-name">warning</span></div>
+        <div class="icon-item"><span class="material-icons">info</span><span class="icon-name">info</span></div>
+        <div class="icon-item"><span class="material-icons">star</span><span class="icon-name">star</span></div>
+        <div class="icon-item"><span class="material-icons">label</span><span class="icon-name">label</span></div>
+        <div class="icon-item"><span class="material-icons">file_download</span><span class="icon-name">file_download</span></div>
+        <div class="icon-item"><span class="material-icons">person</span><span class="icon-name">person</span></div>
+        <div class="icon-item"><span class="material-icons">notifications</span><span class="icon-name">notifications</span></div>
+      </div>
+    </div>
+
+    <!-- ── SPACING & RADIUS ── -->
+    <div class="sg-section">
+      <div class="sg-section-header">Spacing &amp; Radius</div>
+      <div class="two-col">
+        <div>
+          <div style="font-size:0.62rem;font-weight:300;color:var(--text-tertiary);letter-spacing:0.1em;text-transform:uppercase;margin-bottom:14px">Spacing scale</div>
+          <div class="spacing-grid">
+            <div class="spacing-row"><span class="spacing-label">4px</span><div class="spacing-bar" style="width:4px"></div><span class="spacing-val">xs</span></div>
+            <div class="spacing-row"><span class="spacing-label">8px</span><div class="spacing-bar" style="width:8px"></div><span class="spacing-val">sm</span></div>
+            <div class="spacing-row"><span class="spacing-label">12px</span><div class="spacing-bar" style="width:12px"></div><span class="spacing-val">–</span></div>
+            <div class="spacing-row"><span class="spacing-label">16px</span><div class="spacing-bar" style="width:16px"></div><span class="spacing-val">md</span></div>
+            <div class="spacing-row"><span class="spacing-label">24px</span><div class="spacing-bar" style="width:24px"></div><span class="spacing-val">lg</span></div>
+            <div class="spacing-row"><span class="spacing-label">32px</span><div class="spacing-bar" style="width:32px"></div><span class="spacing-val">xl</span></div>
+            <div class="spacing-row"><span class="spacing-label">48px</span><div class="spacing-bar" style="width:48px"></div><span class="spacing-val">2xl</span></div>
+            <div class="spacing-row"><span class="spacing-label">64px</span><div class="spacing-bar" style="width:64px"></div><span class="spacing-val">3xl</span></div>
+          </div>
+        </div>
+        <div>
+          <div style="font-size:0.62rem;font-weight:300;color:var(--text-tertiary);letter-spacing:0.1em;text-transform:uppercase;margin-bottom:14px">Border radius</div>
+          <div class="radius-grid">
+            <div class="radius-item">
+              <div class="radius-preview" style="border-radius:4px"></div>
+              <span class="radius-name">sm · 4px</span>
+            </div>
+            <div class="radius-item">
+              <div class="radius-preview" style="border-radius:8px"></div>
+              <span class="radius-name">md · 8px</span>
+            </div>
+            <div class="radius-item">
+              <div class="radius-preview" style="border-radius:12px"></div>
+              <span class="radius-name">lg · 12px</span>
+            </div>
+            <div class="radius-item">
+              <div class="radius-preview" style="border-radius:16px"></div>
+              <span class="radius-name">xl · 16px</span>
+            </div>
+            <div class="radius-item">
+              <div class="radius-preview" style="border-radius:999px"></div>
+              <span class="radius-name">pill</span>
+            </div>
+          </div>
+          <div style="margin-top:32px">
+            <div style="font-size:0.62rem;font-weight:300;color:var(--text-tertiary);letter-spacing:0.1em;text-transform:uppercase;margin-bottom:14px">Shadows</div>
+            <div class="shadow-grid">
+              <div class="shadow-item">
+                <div class="shadow-preview shadow-sm-preview"></div>
+                <span class="shadow-name">sm</span>
+              </div>
+              <div class="shadow-item">
+                <div class="shadow-preview shadow-md-preview"></div>
+                <span class="shadow-name">md</span>
+              </div>
+              <div class="shadow-item">
+                <div class="shadow-preview shadow-lg-preview"></div>
+                <span class="shadow-name">lg</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<!-- Divider -->
+<div class="theme-divider"></div>
+
+<!-- ══════════════════════════════════════════
+     LIGHT THEME
+══════════════════════════════════════════ -->
+<div class="theme-section light">
+  <div class="sg-container">
+
+    <!-- Page header -->
+    <div class="sg-page-header">
+      <div class="sg-theme-label">
+        <span class="sg-theme-label-dot"></span>
+        Light Theme
+      </div>
+      <h1 class="sg-page-title">Design <span>System</span></h1>
+      <p class="sg-page-subtitle">Angular Material · Roboto · Warm White &amp; Burnt Orange</p>
+    </div>
+
+    <!-- ── COLORS ── -->
+    <div class="sg-section">
+      <div class="sg-section-header">Colors</div>
+      <div class="color-grid">
+        <div class="color-swatch">
+          <div class="swatch-preview" style="background:#c85a0a"></div>
+          <div class="swatch-meta">
+            <span class="swatch-name">Primary</span>
+            <span class="swatch-value">#c85a0a</span>
+          </div>
+        </div>
+        <div class="color-swatch">
+          <div class="swatch-preview" style="background:#a34508"></div>
+          <div class="swatch-meta">
+            <span class="swatch-name">Primary Muted</span>
+            <span class="swatch-value">#a34508</span>
+          </div>
+        </div>
+        <div class="color-swatch">
+          <div class="swatch-preview" style="background:rgba(200,90,10,0.08);border:1px solid rgba(200,90,10,0.15)"></div>
+          <div class="swatch-meta">
+            <span class="swatch-name">Primary Dim</span>
+            <span class="swatch-value">rgba(200,90,10,.08)</span>
+          </div>
+        </div>
+        <div class="color-swatch">
+          <div class="swatch-preview" style="background:#f6f6f4;border:1px solid #e0ddd8"></div>
+          <div class="swatch-meta">
+            <span class="swatch-name">BG Base</span>
+            <span class="swatch-value">#f6f6f4</span>
+          </div>
+        </div>
+        <div class="color-swatch">
+          <div class="swatch-preview" style="background:#ffffff;border:1px solid #e0ddd8"></div>
+          <div class="swatch-meta">
+            <span class="swatch-name">BG Surface</span>
+            <span class="swatch-value">#ffffff</span>
+          </div>
+        </div>
+        <div class="color-swatch">
+          <div class="swatch-preview" style="background:#f0ede8;border:1px solid #e0ddd8"></div>
+          <div class="swatch-meta">
+            <span class="swatch-name">BG Elevated</span>
+            <span class="swatch-value">#f0ede8</span>
+          </div>
+        </div>
+        <div class="color-swatch">
+          <div class="swatch-preview" style="background:#1a1a1a"></div>
+          <div class="swatch-meta">
+            <span class="swatch-name">Text Primary</span>
+            <span class="swatch-value">#1a1a1a</span>
+          </div>
+        </div>
+        <div class="color-swatch">
+          <div class="swatch-preview" style="background:#6a6a6a"></div>
+          <div class="swatch-meta">
+            <span class="swatch-name">Text Secondary</span>
+            <span class="swatch-value">#6a6a6a</span>
+          </div>
+        </div>
+        <div class="color-swatch">
+          <div class="swatch-preview" style="background:#2e7d4f"></div>
+          <div class="swatch-meta">
+            <span class="swatch-name">Success</span>
+            <span class="swatch-value">#2e7d4f</span>
+          </div>
+        </div>
+        <div class="color-swatch">
+          <div class="swatch-preview" style="background:#9a6800"></div>
+          <div class="swatch-meta">
+            <span class="swatch-name">Warning</span>
+            <span class="swatch-value">#9a6800</span>
+          </div>
+        </div>
+        <div class="color-swatch">
+          <div class="swatch-preview" style="background:#c0392b"></div>
+          <div class="swatch-meta">
+            <span class="swatch-name">Danger</span>
+            <span class="swatch-value">#c0392b</span>
+          </div>
+        </div>
+        <div class="color-swatch">
+          <div class="swatch-preview" style="background:#1a6fa8"></div>
+          <div class="swatch-meta">
+            <span class="swatch-name">Info</span>
+            <span class="swatch-value">#1a6fa8</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ── TYPOGRAPHY ── -->
+    <div class="sg-section">
+      <div class="sg-section-header">Typography</div>
+      <div class="type-scale">
+        <div class="type-row">
+          <div class="type-meta"><span class="type-label">Display</span><span class="type-spec">2.5rem / 200</span></div>
+          <span class="t-display">The quick fox</span>
+        </div>
+        <div class="type-row">
+          <div class="type-meta"><span class="type-label">Heading 1</span><span class="type-spec">2rem / 300</span></div>
+          <span class="t-h1">Content Studio</span>
+        </div>
+        <div class="type-row">
+          <div class="type-meta"><span class="type-label">Heading 2</span><span class="type-spec">1.5rem / 300</span></div>
+          <span class="t-h2">Distribution Panel</span>
+        </div>
+        <div class="type-row">
+          <div class="type-meta"><span class="type-label">Heading 3</span><span class="type-spec">1.125rem / 300</span></div>
+          <span class="t-h3">Preview Controls</span>
+        </div>
+        <div class="type-row">
+          <div class="type-meta"><span class="type-label">Heading 4</span><span class="type-spec">0.875rem / 400</span></div>
+          <span class="t-h4">Section title</span>
+        </div>
+        <div class="type-row">
+          <div class="type-meta"><span class="type-label">Body</span><span class="type-spec">0.875rem / 300</span></div>
+          <span class="t-body">Regular body text for reading comfort at standard sizes.</span>
+        </div>
+        <div class="type-row">
+          <div class="type-meta"><span class="type-label">Small</span><span class="type-spec">0.75rem / 300</span></div>
+          <span class="t-small">Supporting text and metadata</span>
+        </div>
+        <div class="type-row">
+          <div class="type-meta"><span class="type-label">Caption</span><span class="type-spec">0.65rem / 300</span></div>
+          <span class="t-caption">Timestamps, hints, auxiliary</span>
+        </div>
+        <div class="type-row">
+          <div class="type-meta"><span class="type-label">Overline</span><span class="type-spec">0.65rem / 400 / UC</span></div>
+          <span class="t-overline">Section label</span>
+        </div>
+        <div class="type-row">
+          <div class="type-meta"><span class="type-label">Code</span><span class="type-spec">0.8rem / mono</span></div>
+          <span class="t-code">httpResource(url)</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- ── BUTTONS ── -->
+    <div class="sg-section">
+      <div class="sg-section-header">Buttons</div>
+      <div class="btn-row">
+        <button class="btn btn-primary">Primary action</button>
+        <button class="btn btn-secondary">Secondary</button>
+        <button class="btn btn-ghost">Ghost</button>
+        <button class="btn btn-subtle">Subtle</button>
+        <button class="btn btn-danger">Delete</button>
+      </div>
+      <div class="btn-row">
+        <button class="btn btn-primary btn-sm">Small primary</button>
+        <button class="btn btn-secondary btn-sm">Small secondary</button>
+        <button class="btn btn-ghost btn-sm">Small ghost</button>
+      </div>
+      <div class="btn-row">
+        <button class="btn btn-primary btn-lg">Large primary</button>
+        <button class="btn btn-secondary btn-lg">Large secondary</button>
+      </div>
+      <div class="btn-row">
+        <button class="btn btn-primary"><span class="material-icons">add</span>With icon</button>
+        <button class="btn btn-secondary"><span class="material-icons">file_download</span>Export</button>
+        <button class="btn btn-ghost btn-icon" title="Settings"><span class="material-icons">settings</span></button>
+        <button class="btn btn-ghost btn-icon" title="More"><span class="material-icons">more_vert</span></button>
+        <button class="btn btn-subtle btn-icon" title="Search"><span class="material-icons">search</span></button>
+      </div>
+    </div>
+
+    <!-- ── INPUTS ── -->
+    <div class="sg-section">
+      <div class="sg-section-header">Inputs</div>
+      <div class="two-col">
+        <div class="input-group">
+          <div class="input-row">
+            <label class="input-label">Default input</label>
+            <input class="input" type="text" placeholder="Enter a value…">
+          </div>
+          <div class="input-row">
+            <label class="input-label">With value</label>
+            <input class="input" type="text" value="Content title draft">
+          </div>
+          <div class="input-row">
+            <label class="input-label">Error state</label>
+            <input class="input input-error" type="text" value="bad@">
+            <span class="input-hint error">Enter a valid email address</span>
+          </div>
+          <div class="input-row">
+            <label class="input-label">Select</label>
+            <select class="select">
+              <option>Blog Post</option>
+              <option>Newsletter</option>
+              <option>Social Media</option>
+            </select>
+          </div>
+          <div class="input-row">
+            <label class="input-label">Textarea</label>
+            <textarea class="input" rows="3" placeholder="Write your content…" style="resize:vertical"></textarea>
+            <span class="input-hint">Max 500 characters</span>
+          </div>
+        </div>
+        <div>
+          <div style="margin-bottom:24px">
+            <div class="sg-section-header" style="font-size:0.6rem;margin-bottom:16px">Toggles</div>
+            <div class="toggle-row">
+              <label class="toggle">
+                <input type="checkbox" checked>
+                <span class="toggle-track"></span>
+                <span class="toggle-thumb"></span>
+              </label>
+              <span class="toggle-label">Auto-publish enabled</span>
+            </div>
+            <div class="toggle-row">
+              <label class="toggle">
+                <input type="checkbox">
+                <span class="toggle-track"></span>
+                <span class="toggle-thumb"></span>
+              </label>
+              <span class="toggle-label">Email notifications</span>
+            </div>
+            <div class="toggle-row">
+              <label class="toggle">
+                <input type="checkbox" checked>
+                <span class="toggle-track"></span>
+                <span class="toggle-thumb"></span>
+              </label>
+              <span class="toggle-label">Dark mode</span>
+            </div>
+          </div>
+          <div>
+            <div class="sg-section-header" style="font-size:0.6rem;margin-bottom:16px">Progress</div>
+            <div class="progress-group">
+              <div class="progress-row">
+                <div class="progress-header">
+                  <span class="progress-label">Upload progress</span>
+                  <span class="progress-value">72%</span>
+                </div>
+                <div class="progress-track"><div class="progress-fill" style="width:72%"></div></div>
+              </div>
+              <div class="progress-row">
+                <div class="progress-header">
+                  <span class="progress-label">Published</span>
+                  <span class="progress-value">48%</span>
+                </div>
+                <div class="progress-track"><div class="progress-fill success" style="width:48%"></div></div>
+              </div>
+              <div class="progress-row">
+                <div class="progress-header">
+                  <span class="progress-label">Storage used</span>
+                  <span class="progress-value">91%</span>
+                </div>
+                <div class="progress-track"><div class="progress-fill danger" style="width:91%"></div></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ── BADGES & TAGS ── -->
+    <div class="sg-section">
+      <div class="sg-section-header">Badges &amp; Tags</div>
+      <div class="badge-row" style="margin-bottom:16px">
+        <span class="badge badge-primary">Primary</span>
+        <span class="badge badge-success">Published</span>
+        <span class="badge badge-warning">Pending</span>
+        <span class="badge badge-danger">Failed</span>
+        <span class="badge badge-info">Scheduled</span>
+        <span class="badge badge-neutral">Draft</span>
+      </div>
+      <div class="badge-row">
+        <span class="tag"><span class="material-icons">label</span>Angular</span>
+        <span class="tag"><span class="material-icons">label</span>TypeScript</span>
+        <span class="tag"><span class="material-icons">label</span>Material</span>
+        <span class="tag"><span class="material-icons">label</span>NgRx</span>
+        <span class="tag"><span class="material-icons">label</span>Vitest</span>
+      </div>
+    </div>
+
+    <!-- ── CARDS ── -->
+    <div class="sg-section">
+      <div class="sg-section-header">Cards</div>
+      <div class="card-grid">
+        <div class="card">
+          <div class="card-icon"><span class="material-icons">article</span></div>
+          <div class="card-title">Default card</div>
+          <div class="card-body">A clean surface for content with subtle border and spacious padding.</div>
+          <div class="card-footer">
+            <span class="card-meta">Updated 2h ago</span>
+            <button class="btn btn-ghost btn-sm">View</button>
+          </div>
+        </div>
+        <div class="card card-elevated">
+          <div class="card-icon"><span class="material-icons">bar_chart</span></div>
+          <div class="card-title">Elevated card</div>
+          <div class="card-body">Uses a slightly higher surface level with a soft shadow to indicate importance.</div>
+          <div class="card-footer">
+            <span class="card-meta">12 items</span>
+            <button class="btn btn-subtle btn-sm">Inspect</button>
+          </div>
+        </div>
+        <div class="card card-highlighted">
+          <div class="card-icon"><span class="material-icons">star</span></div>
+          <div class="card-title">Highlighted card</div>
+          <div class="card-body">Primary accent border to draw attention to selected or featured items.</div>
+          <div class="card-footer">
+            <span class="card-meta badge badge-primary" style="padding:2px 8px">Featured</span>
+            <button class="btn btn-primary btn-sm">Open</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ── ALERTS ── -->
+    <div class="sg-section">
+      <div class="sg-section-header">Alerts</div>
+      <div class="alert alert-success"><span class="material-icons">check_circle</span><div class="alert-content"><div class="alert-title">Content published</div><div class="alert-body">Your post has been published and is now live.</div></div></div>
+      <div class="alert alert-warning"><span class="material-icons">warning</span><div class="alert-content"><div class="alert-title">Review required</div><div class="alert-body">This content hasn't been reviewed in 30 days.</div></div></div>
+      <div class="alert alert-danger"><span class="material-icons">error</span><div class="alert-content"><div class="alert-title">Publish failed</div><div class="alert-body">An error occurred while publishing. Please try again.</div></div></div>
+      <div class="alert alert-info"><span class="material-icons">info</span><div class="alert-content"><div class="alert-title">Scheduled for tomorrow</div><div class="alert-body">This post will publish on Feb 23 at 09:00.</div></div></div>
+    </div>
+
+    <!-- ── TABLE ── -->
+    <div class="sg-section">
+      <div class="sg-section-header">Table</div>
+      <table class="sg-table">
+        <thead>
+          <tr>
+            <th>Title</th>
+            <th>Status</th>
+            <th>Author</th>
+            <th>Date</th>
+            <th>Views</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Getting started with Angular signals</td>
+            <td><span class="badge badge-success">Published</span></td>
+            <td>D. McMillan</td>
+            <td>Feb 20, 2026</td>
+            <td>1,842</td>
+          </tr>
+          <tr>
+            <td>NgRx Signal Store patterns</td>
+            <td><span class="badge badge-warning">Pending</span></td>
+            <td>D. McMillan</td>
+            <td>Feb 21, 2026</td>
+            <td>—</td>
+          </tr>
+          <tr>
+            <td>Material 3 theming deep dive</td>
+            <td><span class="badge badge-neutral">Draft</span></td>
+            <td>D. McMillan</td>
+            <td>Feb 22, 2026</td>
+            <td>—</td>
+          </tr>
+          <tr>
+            <td>Vitest setup for Angular 21</td>
+            <td><span class="badge badge-info">Scheduled</span></td>
+            <td>D. McMillan</td>
+            <td>Feb 23, 2026</td>
+            <td>—</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <!-- ── LIST ── -->
+    <div class="sg-section">
+      <div class="sg-section-header">List Items</div>
+      <ul class="sg-list">
+        <li class="sg-list-item">
+          <div class="list-item-icon"><span class="material-icons">description</span></div>
+          <div class="list-item-content">
+            <span class="list-item-title">Angular signals guide</span>
+            <span class="list-item-sub">Published · 1,842 views</span>
+          </div>
+          <span class="list-item-end">Feb 20</span>
+        </li>
+        <li class="sg-list-item">
+          <div class="list-item-icon"><span class="material-icons">send</span></div>
+          <div class="list-item-content">
+            <span class="list-item-title">Weekly newsletter #14</span>
+            <span class="list-item-sub">Sent · 3,200 recipients</span>
+          </div>
+          <span class="list-item-end">Feb 19</span>
+        </li>
+        <li class="sg-list-item">
+          <div class="list-item-icon"><span class="material-icons">schedule</span></div>
+          <div class="list-item-content">
+            <span class="list-item-title">Vitest setup guide</span>
+            <span class="list-item-sub">Scheduled · Feb 23 09:00</span>
+          </div>
+          <span class="list-item-end">Feb 22</span>
+        </li>
+        <li class="sg-list-item">
+          <div class="list-item-icon"><span class="material-icons">edit</span></div>
+          <div class="list-item-content">
+            <span class="list-item-title">Material 3 theming</span>
+            <span class="list-item-sub">Draft · Last edited 4h ago</span>
+          </div>
+          <span class="list-item-end">Feb 22</span>
+        </li>
+      </ul>
+    </div>
+
+    <!-- ── NAVIGATION ELEMENTS ── -->
+    <div class="sg-section">
+      <div class="sg-section-header">Navigation</div>
+      <div style="display:flex;flex-direction:column;gap:20px">
+        <div>
+          <div style="font-size:0.62rem;font-weight:300;color:var(--text-tertiary);letter-spacing:0.1em;text-transform:uppercase;margin-bottom:10px">Tabs</div>
+          <div class="sg-tabs">
+            <button class="sg-tab active">Overview</button>
+            <button class="sg-tab">Content</button>
+            <button class="sg-tab">Analytics</button>
+            <button class="sg-tab">Settings</button>
+          </div>
+        </div>
+        <div>
+          <div style="font-size:0.62rem;font-weight:300;color:var(--text-tertiary);letter-spacing:0.1em;text-transform:uppercase;margin-bottom:10px">Breadcrumb</div>
+          <nav class="breadcrumb">
+            <a href="#">Workspace</a>
+            <span class="breadcrumb-sep">›</span>
+            <a href="#">Content</a>
+            <span class="breadcrumb-sep">›</span>
+            <a href="#">Blog</a>
+            <span class="breadcrumb-sep">›</span>
+            <span class="breadcrumb-current">Angular signals guide</span>
+          </nav>
+        </div>
+      </div>
+    </div>
+
+    <!-- ── AVATARS ── -->
+    <div class="sg-section">
+      <div class="sg-section-header">Avatars</div>
+      <div class="avatar-row">
+        <div class="avatar avatar-xs">DM</div>
+        <div class="avatar avatar-sm">DM</div>
+        <div class="avatar avatar-md">DM</div>
+        <div class="avatar avatar-lg">DM</div>
+        <div class="avatar avatar-xl">DM</div>
+      </div>
+    </div>
+
+    <!-- ── ICONS ── -->
+    <div class="sg-section">
+      <div class="sg-section-header">Icons (Material)</div>
+      <div class="icon-grid">
+        <div class="icon-item"><span class="material-icons">article</span><span class="icon-name">article</span></div>
+        <div class="icon-item"><span class="material-icons">send</span><span class="icon-name">send</span></div>
+        <div class="icon-item"><span class="material-icons">bar_chart</span><span class="icon-name">bar_chart</span></div>
+        <div class="icon-item"><span class="material-icons">settings</span><span class="icon-name">settings</span></div>
+        <div class="icon-item"><span class="material-icons">add</span><span class="icon-name">add</span></div>
+        <div class="icon-item"><span class="material-icons">edit</span><span class="icon-name">edit</span></div>
+        <div class="icon-item"><span class="material-icons">delete</span><span class="icon-name">delete</span></div>
+        <div class="icon-item"><span class="material-icons">search</span><span class="icon-name">search</span></div>
+        <div class="icon-item"><span class="material-icons">filter_list</span><span class="icon-name">filter_list</span></div>
+        <div class="icon-item"><span class="material-icons">more_vert</span><span class="icon-name">more_vert</span></div>
+        <div class="icon-item"><span class="material-icons">schedule</span><span class="icon-name">schedule</span></div>
+        <div class="icon-item"><span class="material-icons">check_circle</span><span class="icon-name">check_circle</span></div>
+        <div class="icon-item"><span class="material-icons">error</span><span class="icon-name">error</span></div>
+        <div class="icon-item"><span class="material-icons">warning</span><span class="icon-name">warning</span></div>
+        <div class="icon-item"><span class="material-icons">info</span><span class="icon-name">info</span></div>
+        <div class="icon-item"><span class="material-icons">star</span><span class="icon-name">star</span></div>
+        <div class="icon-item"><span class="material-icons">label</span><span class="icon-name">label</span></div>
+        <div class="icon-item"><span class="material-icons">file_download</span><span class="icon-name">file_download</span></div>
+        <div class="icon-item"><span class="material-icons">person</span><span class="icon-name">person</span></div>
+        <div class="icon-item"><span class="material-icons">notifications</span><span class="icon-name">notifications</span></div>
+      </div>
+    </div>
+
+    <!-- ── SPACING & RADIUS ── -->
+    <div class="sg-section">
+      <div class="sg-section-header">Spacing &amp; Radius</div>
+      <div class="two-col">
+        <div>
+          <div style="font-size:0.62rem;font-weight:300;color:var(--text-tertiary);letter-spacing:0.1em;text-transform:uppercase;margin-bottom:14px">Spacing scale</div>
+          <div class="spacing-grid">
+            <div class="spacing-row"><span class="spacing-label">4px</span><div class="spacing-bar" style="width:4px"></div><span class="spacing-val">xs</span></div>
+            <div class="spacing-row"><span class="spacing-label">8px</span><div class="spacing-bar" style="width:8px"></div><span class="spacing-val">sm</span></div>
+            <div class="spacing-row"><span class="spacing-label">12px</span><div class="spacing-bar" style="width:12px"></div><span class="spacing-val">–</span></div>
+            <div class="spacing-row"><span class="spacing-label">16px</span><div class="spacing-bar" style="width:16px"></div><span class="spacing-val">md</span></div>
+            <div class="spacing-row"><span class="spacing-label">24px</span><div class="spacing-bar" style="width:24px"></div><span class="spacing-val">lg</span></div>
+            <div class="spacing-row"><span class="spacing-label">32px</span><div class="spacing-bar" style="width:32px"></div><span class="spacing-val">xl</span></div>
+            <div class="spacing-row"><span class="spacing-label">48px</span><div class="spacing-bar" style="width:48px"></div><span class="spacing-val">2xl</span></div>
+            <div class="spacing-row"><span class="spacing-label">64px</span><div class="spacing-bar" style="width:64px"></div><span class="spacing-val">3xl</span></div>
+          </div>
+        </div>
+        <div>
+          <div style="font-size:0.62rem;font-weight:300;color:var(--text-tertiary);letter-spacing:0.1em;text-transform:uppercase;margin-bottom:14px">Border radius</div>
+          <div class="radius-grid">
+            <div class="radius-item">
+              <div class="radius-preview" style="border-radius:4px"></div>
+              <span class="radius-name">sm · 4px</span>
+            </div>
+            <div class="radius-item">
+              <div class="radius-preview" style="border-radius:8px"></div>
+              <span class="radius-name">md · 8px</span>
+            </div>
+            <div class="radius-item">
+              <div class="radius-preview" style="border-radius:12px"></div>
+              <span class="radius-name">lg · 12px</span>
+            </div>
+            <div class="radius-item">
+              <div class="radius-preview" style="border-radius:16px"></div>
+              <span class="radius-name">xl · 16px</span>
+            </div>
+            <div class="radius-item">
+              <div class="radius-preview" style="border-radius:999px"></div>
+              <span class="radius-name">pill</span>
+            </div>
+          </div>
+          <div style="margin-top:32px">
+            <div style="font-size:0.62rem;font-weight:300;color:var(--text-tertiary);letter-spacing:0.1em;text-transform:uppercase;margin-bottom:14px">Shadows</div>
+            <div class="shadow-grid">
+              <div class="shadow-item">
+                <div class="shadow-preview shadow-sm-preview"></div>
+                <span class="shadow-name">sm</span>
+              </div>
+              <div class="shadow-item">
+                <div class="shadow-preview shadow-md-preview"></div>
+                <span class="shadow-name">md</span>
+              </div>
+              <div class="shadow-item">
+                <div class="shadow-preview shadow-lg-preview"></div>
+                <span class="shadow-name">lg</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+</body>
+</html>
