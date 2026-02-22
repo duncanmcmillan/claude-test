@@ -5,7 +5,11 @@
     <button mat-raised-button class="tab-btn">Preview</button>
     <button mat-raised-button class="tab-btn">Distribution</button>
   </div>
-  <app-content-controls-panel />
-  <app-content-distribution-panel />
-  <app-content-preview-panel />
+  <div class="content-workspace">
+    <app-content-controls-panel />
+    <app-content-preview-panel />
+  </div>
+  <div class="distribution-wrapper">
+    <app-content-distribution-panel />
+  </div>
 </div>

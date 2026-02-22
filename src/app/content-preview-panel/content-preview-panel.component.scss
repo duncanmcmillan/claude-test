@@ -10,13 +10,16 @@
 .preview-panel {
   width: 100%;
   height: 100%;
-  background: white;
   box-sizing: border-box;
+
+  // mat-card highlighted — dark theme (style-guide.html .card-highlighted)
+  background: rgba(245, 124, 40, 0.12);
+  --mdc-outlined-card-outline-color: #f57c28;
 }
 
 .component-title {
   font-size: 0.75rem;
-  color: black;
+  color: #ebebeb;
   display: block;
   padding: 4px 8px;
 }
