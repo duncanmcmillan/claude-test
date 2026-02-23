@@ -1,0 +1,17 @@
+<div class="tab-bar-container">
+  <div class="tab-bar">
+    @for (tab of tabs; track tab) {
+      <button
+        class="tab"
+        [class.active]="activeTab() === tab"
+        (click)="setActive(tab)">
+        <span class="tab-label">{{ tab }}</span>
+        <mat-icon class="tab-icon">settings</mat-icon>
+      </button>
+    }
+  </div>
+  <mat-progress-bar
+    class="tab-progress"
+    mode="determinate"
+    [value]="0" />
+</div>

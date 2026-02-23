@@ -1,7 +1,7 @@
 :host {
   display: block;
   width: 45%;
-  height: 90%;
+  height: auto;
   margin-left: 10px;
   margin-right: 10px;
   box-sizing: border-box;
@@ -9,7 +9,7 @@
 
 .controls-card {
   width: 100%;
-  height: 100%;
+  height: auto;
   box-sizing: border-box;
 }
 
@@ -18,6 +18,9 @@
   background: #1a1a1a;
   box-shadow: 0 1px 3px rgba(0, 0, 0, 0.5), 0 1px 2px rgba(0, 0, 0, 0.4);
   transition: background 0.18s ease, box-shadow 0.18s ease;
+  display: flex;
+  flex-direction: column;
+  padding: 0;
 
   &:hover {
     background: rgba(245, 124, 40, 0.12);
@@ -30,9 +33,15 @@
   }
 }
 
-.panel-label {
-  display: block;
-  font-size: 0.75rem;
-  font-weight: 500;
-  color: #ebebeb;
+.top-bar {
+  display: flex;
+  justify-content: center;
+  width: 100%;
+}
+
+.mid-section {
+  display: flex;
+  justify-content: center;
+  width: 100%;
+  padding-top: 8px;
 }
