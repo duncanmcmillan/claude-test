@@ -1,0 +1,19 @@
+import { ChangeDetectionStrategy, Component, signal } from '@angular/core';
+import { TextFieldModule } from '@angular/cdk/text-field';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatInputModule } from '@angular/material/input';
+
+@Component({
+  selector: 'app-text-input-control',
+  imports: [TextFieldModule, MatFormFieldModule, MatInputModule],
+  templateUrl: './text-input-control.component.html',
+  styleUrl: './text-input-control.component.scss',
+  changeDetection: ChangeDetectionStrategy.OnPush,
+})
+export class TextInputControlComponent {
+  readonly instrumental = signal(false);
+
+  setInstrumental(event: Event): void {
+    this.instrumental.set((event.target as HTMLInputElement).checked);
+  }
+}

@@ -1,0 +1,32 @@
+<div class="control-wrapper">
+  <mat-form-field class="main-field" appearance="fill" subscriptSizing="dynamic">
+    <textarea
+      matInput
+      cdkTextareaAutosize
+      cdkAutosizeMinRows="4"
+      placeholder="Enter text..."></textarea>
+  </mat-form-field>
+
+  <div class="input-row">
+    <mat-form-field class="inline-field" appearance="fill" subscriptSizing="dynamic">
+      <textarea
+        matInput
+        cdkTextareaAutosize
+        cdkAutosizeMinRows="2"
+        placeholder="Enter text..."></textarea>
+    </mat-form-field>
+
+    <div class="toggle-wrapper">
+      <span class="toggle-label">Instrumental</span>
+      <label class="toggle">
+        <input
+          type="checkbox"
+          class="toggle-input"
+          [checked]="instrumental()"
+          (change)="setInstrumental($event)" />
+        <span class="toggle-track"></span>
+        <span class="toggle-thumb"></span>
+      </label>
+    </div>
+  </div>
+</div>
