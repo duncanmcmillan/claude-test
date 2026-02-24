@@ -1,6 +1,6 @@
 <mat-card class="controls-card">
   <div class="top-bar">
-    <app-media-control-tab-bar />
+    <app-media-control-tab-bar [promptText]="textInput()?.promptText() ?? ''" />
   </div>
   <div class="mid-section">
     <app-text-input-control />

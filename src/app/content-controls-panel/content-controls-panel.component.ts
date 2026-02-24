@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { ChangeDetectionStrategy, Component, viewChild } from '@angular/core';
 import { MatCardModule } from '@angular/material/card';
 import { MediaControlTabBarComponent } from './media-control-tab-bar';
 import { TextInputControlComponent } from './text-input-control';
@@ -10,4 +10,6 @@ import { TextInputControlComponent } from './text-input-control';
   styleUrl: './content-controls-panel.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class ContentControlsPanelComponent {}
+export class ContentControlsPanelComponent {
+  readonly textInput = viewChild(TextInputControlComponent);
+}

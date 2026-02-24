@@ -1,15 +1,25 @@
+import { vi } from 'vitest';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { provideNoopAnimations } from '@angular/platform-browser/animations';
 import { ContentControlsPanelComponent } from './content-controls-panel.component';
+import { TextInputControlComponent } from './text-input-control';
+import { FalStore } from '../fal/fal.store';
+
+const mockFalStore = { submit: vi.fn() };
 
 describe('ContentControlsPanelComponent', () => {
   let fixture: ComponentFixture<ContentControlsPanelComponent>;
   let compiled: HTMLElement;
 
   beforeEach(async () => {
+    vi.clearAllMocks();
+
     await TestBed.configureTestingModule({
       imports: [ContentControlsPanelComponent],
-      providers: [provideNoopAnimations()],
+      providers: [
+        provideNoopAnimations(),
+        { provide: FalStore, useValue: mockFalStore },
+      ],
     }).compileComponents();
 
     fixture = TestBed.createComponent(ContentControlsPanelComponent);
@@ -48,5 +58,18 @@ describe('ContentControlsPanelComponent', () => {
     const card = compiled.querySelector('.controls-card');
     const firstChild = card?.firstElementChild;
     expect(firstChild?.classList.contains('top-bar')).toBe(true);
+  });
+
+  // ── viewChild wiring ───────────────────────────────────────────────────────
+
+  it('should expose textInput viewChild as a TextInputControlComponent instance', () => {
+    expect(fixture.componentInstance.textInput()).toBeInstanceOf(TextInputControlComponent);
+  });
+
+  it('should reflect promptText changes from the text input child', () => {
+    const textInput = fixture.componentInstance.textInput()!;
+    textInput.promptText.set('wiring test');
+    fixture.detectChanges();
+    expect(fixture.componentInstance.textInput()?.promptText()).toBe('wiring test');
   });
 });
