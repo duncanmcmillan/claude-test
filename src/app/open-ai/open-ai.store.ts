@@ -1,7 +1,6 @@
-import { computed } from '@angular/core';
+import { computed, inject } from '@angular/core';
 import { signalStore, withState, withComputed, withMethods, patchState } from '@ngrx/signals';
 import { rxMethod } from '@ngrx/signals/rxjs-interop';
-import { inject } from '@angular/core';
 import { EMPTY, pipe, switchMap, exhaustMap } from 'rxjs';
 import { tap, catchError } from 'rxjs/operators';
 import { OpenAiService } from './open-ai.service';
@@ -50,7 +49,12 @@ export const OpenAiStore = signalStore(
           tap(() => patchState(store, { loading: true, error: null, status: null, result: null, jobRef: null })),
           exhaustMap((jobInput) =>
             service.request(jobInput).pipe(
-              tap((jobRef: OpenAiJobRef) => patchState(store, { jobRef, loading: false })),
+              tap((jobRef: OpenAiJobRef) => patchState(store, { jobRef })),
+              switchMap((jobRef) =>
+                service.getResult(jobRef).pipe(
+                  tap((result) => patchState(store, { result, loading: false })),
+                )
+              ),
               catchError((err: OpenAiServiceError) => {
                 patchState(store, { error: err, loading: false });
                 return EMPTY;

@@ -1,9 +1,8 @@
-import { computed } from '@angular/core';
+import { computed, inject } from '@angular/core';
 import { signalStore, withState, withComputed, withMethods, patchState } from '@ngrx/signals';
 import { rxMethod } from '@ngrx/signals/rxjs-interop';
-import { inject } from '@angular/core';
-import { EMPTY, pipe, switchMap, exhaustMap } from 'rxjs';
-import { tap, catchError } from 'rxjs/operators';
+import { EMPTY, pipe, switchMap, exhaustMap, timer } from 'rxjs';
+import { tap, catchError, takeWhile, filter, take } from 'rxjs/operators';
 import { WavespeedService } from './wavespeed.service';
 import type {
   WavespeedRequestInput,
@@ -11,6 +10,8 @@ import type {
   WavespeedResult,
   WavespeedServiceError,
 } from './wavespeed.model';
+
+export const WAVESPEED_POLL_INTERVAL_MS = 2000;
 
 interface WavespeedState {
   loading: boolean;
@@ -49,11 +50,30 @@ export const WavespeedStore = signalStore(
     return {
       submit: rxMethod<WavespeedRequestInput>(
         pipe(
-          tap(() => patchState(store, { loading: true, error: null, status: null, result: null })),
+          tap(() => patchState(store, { loading: true, error: null, status: null, result: null, predictionId: null })),
           exhaustMap((jobInput) =>
             service.request(jobInput).pipe(
-              tap((ref) =>
-                patchState(store, { predictionId: ref.predictionId, loading: false })
+              tap((ref) => patchState(store, { predictionId: ref.predictionId })),
+              switchMap((ref) =>
+                timer(0, WAVESPEED_POLL_INTERVAL_MS).pipe(
+                  exhaustMap(() => service.status(ref.predictionId)),
+                  tap((s) => patchState(store, { status: s })),
+                  takeWhile((s) => s.status !== 'completed' && s.status !== 'failed', true),
+                  filter((s) => s.status === 'completed' || s.status === 'failed'),
+                  take(1),
+                  switchMap((s) => {
+                    if (s.status === 'failed') {
+                      patchState(store, {
+                        error: { message: `Prediction ${ref.predictionId} failed`, predictionId: ref.predictionId },
+                        loading: false,
+                      });
+                      return EMPTY;
+                    }
+                    return service.getResult(ref.predictionId).pipe(
+                      tap((result) => patchState(store, { result, loading: false })),
+                    );
+                  }),
+                )
               ),
               catchError((err: WavespeedServiceError) => {
                 patchState(store, { error: err, loading: false });

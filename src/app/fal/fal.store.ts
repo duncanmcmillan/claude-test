@@ -1,9 +1,8 @@
-import { computed } from '@angular/core';
+import { computed, inject } from '@angular/core';
 import { signalStore, withState, withComputed, withMethods, patchState } from '@ngrx/signals';
 import { rxMethod } from '@ngrx/signals/rxjs-interop';
-import { inject } from '@angular/core';
-import { EMPTY, pipe, switchMap, exhaustMap } from 'rxjs';
-import { tap, catchError } from 'rxjs/operators';
+import { EMPTY, pipe, switchMap, exhaustMap, timer } from 'rxjs';
+import { tap, catchError, takeWhile, filter, take } from 'rxjs/operators';
 import { FalService } from './fal.service';
 import type {
   FalJobInput,
@@ -12,6 +11,8 @@ import type {
   QueueStatus,
   InQueueQueueStatus,
 } from './fal.model';
+
+export const FAL_POLL_INTERVAL_MS = 2000;
 
 interface FalState {
   loading: boolean;
@@ -47,7 +48,7 @@ export const FalStore = signalStore(
     return {
       submit: rxMethod<FalJobInput>(
         pipe(
-          tap(() => patchState(store, { loading: true, error: null, status: null, result: null })),
+          tap(() => patchState(store, { loading: true, error: null, status: null, result: null, requestId: null, model: null })),
           exhaustMap((jobInput) =>
             service.request(jobInput).pipe(
               tap((queued: InQueueQueueStatus) =>
@@ -55,8 +56,18 @@ export const FalStore = signalStore(
                   requestId: queued.request_id,
                   model: jobInput.model,
                   status: queued,
-                  loading: false,
                 })
+              ),
+              switchMap((queued) =>
+                timer(0, FAL_POLL_INTERVAL_MS).pipe(
+                  exhaustMap(() => service.status(queued.request_id, jobInput.model)),
+                  tap((s) => patchState(store, { status: s })),
+                  takeWhile((s) => s.status !== 'COMPLETED', true),
+                  filter((s) => s.status === 'COMPLETED'),
+                  take(1),
+                  switchMap(() => service.getResult(queued.request_id, jobInput.model)),
+                  tap((result) => patchState(store, { result, loading: false })),
+                )
               ),
               catchError((err: FalServiceError) => {
                 patchState(store, { error: err, loading: false });
