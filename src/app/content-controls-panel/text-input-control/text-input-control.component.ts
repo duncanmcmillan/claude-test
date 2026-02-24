@@ -12,6 +12,7 @@ import { MatInputModule } from '@angular/material/input';
 })
 export class TextInputControlComponent {
   readonly instrumental = signal(false);
+  readonly promptText = signal('');
 
   /**
    * Updates the instrumental signal based on a checkbox change event.
@@ -19,5 +20,13 @@ export class TextInputControlComponent {
    */
   setInstrumental(event: Event): void {
     this.instrumental.set((event.target as HTMLInputElement).checked);
+  }
+
+  /**
+   * Updates the promptText signal from the main textarea's input event.
+   * @param event - The DOM input event from the textarea.
+   */
+  updatePromptText(event: Event): void {
+    this.promptText.set((event.target as HTMLTextAreaElement).value);
   }
 }

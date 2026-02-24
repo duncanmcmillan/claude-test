@@ -4,7 +4,8 @@
       matInput
       cdkTextareaAutosize
       cdkAutosizeMinRows="4"
-      placeholder="Enter text..."></textarea>
+      placeholder="Enter text..."
+      (input)="updatePromptText($event)"></textarea>
   </mat-form-field>
 
   <div class="input-row">

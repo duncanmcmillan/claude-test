@@ -131,4 +131,39 @@ describe('TextInputControlComponent', () => {
     const wrapper = compiled.querySelector('.control-wrapper');
     expect(wrapper?.parentElement).toBe(compiled);
   });
+
+  // ── promptText signal ─────────────────────────────────────────────────────
+
+  it('should default promptText signal to empty string', () => {
+    expect(component.promptText()).toBe('');
+  });
+
+  it('should update promptText when the main textarea receives an input event', () => {
+    const textarea = compiled.querySelector('.main-field textarea') as HTMLTextAreaElement;
+    textarea.value = 'a golden hour landscape';
+    textarea.dispatchEvent(new Event('input'));
+    fixture.detectChanges();
+    expect(component.promptText()).toBe('a golden hour landscape');
+  });
+
+  it('should not update promptText when the inline textarea receives an input event', () => {
+    const textarea = compiled.querySelector('.inline-field textarea') as HTMLTextAreaElement;
+    textarea.value = 'should be ignored';
+    textarea.dispatchEvent(new Event('input'));
+    fixture.detectChanges();
+    expect(component.promptText()).toBe('');
+  });
+
+  it('should update promptText on each successive input event', () => {
+    const textarea = compiled.querySelector('.main-field textarea') as HTMLTextAreaElement;
+    textarea.value = 'first';
+    textarea.dispatchEvent(new Event('input'));
+    fixture.detectChanges();
+
+    textarea.value = 'second';
+    textarea.dispatchEvent(new Event('input'));
+    fixture.detectChanges();
+
+    expect(component.promptText()).toBe('second');
+  });
 });

@@ -12,6 +12,7 @@
 - All components use OnPush change detection
 - API calls through services, never directly in components
 - Barrel exports (index.ts) for every feature folder
+- Add JSDoc comments to any new or changed functions
 
 ## Commands
 - `npm run test` – Run Vitest
