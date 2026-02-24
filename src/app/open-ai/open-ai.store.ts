@@ -3,6 +3,7 @@ import { signalStore, withState, withComputed, withMethods, patchState } from '@
 import { rxMethod } from '@ngrx/signals/rxjs-interop';
 import { EMPTY, pipe, switchMap, exhaustMap } from 'rxjs';
 import { tap, catchError } from 'rxjs/operators';
+import { withDevtools } from '../shared/devtools.feature';
 import { OpenAiService } from './open-ai.service';
 import type {
   OpenAiRequestInput,
@@ -30,6 +31,7 @@ const initialState: OpenAiState = {
 
 export const OpenAiStore = signalStore(
   { providedIn: 'root' },
+  withDevtools('openAi'),
   withState(initialState),
   withComputed((store) => ({
     isLoading: computed(() => store.loading()),
