@@ -13,6 +13,10 @@ export class MediaControlTabBarComponent {
   readonly tabs = ['Image', 'Video', 'Sound'] as const;
   readonly activeTab = signal<string>('Image');
 
+  /**
+   * Sets the currently active media tab.
+   * @param tab - The tab label to activate (e.g. 'Image', 'Video', 'Sound').
+   */
   setActive(tab: string): void {
     this.activeTab.set(tab);
   }

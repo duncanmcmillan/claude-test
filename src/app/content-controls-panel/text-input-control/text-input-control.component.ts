@@ -13,6 +13,10 @@ import { MatInputModule } from '@angular/material/input';
 export class TextInputControlComponent {
   readonly instrumental = signal(false);
 
+  /**
+   * Updates the instrumental signal based on a checkbox change event.
+   * @param event - The DOM change event from the checkbox input.
+   */
   setInstrumental(event: Event): void {
     this.instrumental.set((event.target as HTMLInputElement).checked);
   }
