@@ -3,6 +3,7 @@ import { signalStore, withState, withComputed, withMethods, patchState } from '@
 import { rxMethod } from '@ngrx/signals/rxjs-interop';
 import { EMPTY, pipe, switchMap, exhaustMap, timer } from 'rxjs';
 import { tap, catchError, takeWhile, filter, take } from 'rxjs/operators';
+import { withDevtools } from '../shared/devtools.feature';
 import { FalService } from './fal.service';
 import type {
   FalJobInput,
@@ -34,6 +35,7 @@ const initialState: FalState = {
 
 export const FalStore = signalStore(
   { providedIn: 'root' },
+  withDevtools('fal'),
   withState(initialState),
   withComputed((store) => ({
     isLoading: computed(() => store.loading()),

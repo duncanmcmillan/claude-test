@@ -4,6 +4,7 @@ import { rxMethod } from '@ngrx/signals/rxjs-interop';
 import { inject } from '@angular/core';
 import { EMPTY, pipe, switchMap, exhaustMap } from 'rxjs';
 import { tap, catchError } from 'rxjs/operators';
+import { withDevtools } from '../shared/devtools.feature';
 import { SerpApiService } from './serp-api.service';
 import type {
   SerpApiRequestParams,
@@ -32,6 +33,7 @@ const initialState: SerpApiState = {
 
 export const SerpApiStore = signalStore(
   { providedIn: 'root' },
+  withDevtools('serpApi'),
   withState(initialState),
   withComputed((store) => ({
     isLoading: computed(() => store.loading()),
