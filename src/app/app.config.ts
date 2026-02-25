@@ -4,9 +4,9 @@ import { provideRouter } from '@angular/router';
 import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
 
 import { routes } from './app.routes';
-import { FalStore } from './fal';
-import { OpenAiStore } from './open-ai';
-import { WavespeedStore } from './wavespeed';
+import { FalStore } from './services/fal';
+import { OpenAiStore } from './services/open-ai';
+import { WavespeedStore } from './services/wavespeed';
 
 export const appConfig: ApplicationConfig = {
   providers: [

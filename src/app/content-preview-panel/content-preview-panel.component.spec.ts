@@ -3,8 +3,8 @@ import { provideNoopAnimations } from '@angular/platform-browser/animations';
 import { signal } from '@angular/core';
 import { describe, it, expect, beforeEach } from 'vitest';
 import { ContentPreviewPanelComponent } from './content-preview-panel.component';
-import { FalStore } from '../fal';
-import type { FalJobResult } from '../fal';
+import { FalStore } from '../services/fal';
+import type { FalJobResult } from '../services/fal';
 import type { MediaItem } from '../media-container';
 
 const mockFalStore = { result: signal<FalJobResult | null>(null) };

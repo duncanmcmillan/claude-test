@@ -1,7 +1,7 @@
 import { ChangeDetectionStrategy, Component, inject, input, signal } from '@angular/core';
 import { MatIconModule } from '@angular/material/icon';
 import { MatProgressBarModule } from '@angular/material/progress-bar';
-import { FalStore } from '../../fal/fal.store';
+import { FalStore } from '../../services/fal/fal.store';
 
 @Component({
   selector: 'app-media-control-tab-bar',

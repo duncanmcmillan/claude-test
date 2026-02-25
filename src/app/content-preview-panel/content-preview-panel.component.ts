@@ -1,6 +1,6 @@
 import { ChangeDetectionStrategy, Component, effect, inject, signal } from '@angular/core';
 import { MatCardModule } from '@angular/material/card';
-import { FalStore } from '../fal';
+import { FalStore } from '../services/fal';
 import { MediaContainerComponent } from '../media-container';
 import type { FalImageResult, MediaItem } from '../media-container';
 

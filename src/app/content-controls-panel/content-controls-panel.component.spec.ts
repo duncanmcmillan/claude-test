@@ -3,7 +3,7 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { provideNoopAnimations } from '@angular/platform-browser/animations';
 import { ContentControlsPanelComponent } from './content-controls-panel.component';
 import { TextInputControlComponent } from './text-input-control';
-import { FalStore } from '../fal/fal.store';
+import { FalStore } from '../services/fal/fal.store';
 
 const mockFalStore = { submit: vi.fn() };
 

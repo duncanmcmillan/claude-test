@@ -2,7 +2,7 @@ import { describe, it, expect, vi, beforeEach } from 'vitest';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { provideNoopAnimations } from '@angular/platform-browser/animations';
 import { MediaControlTabBarComponent } from './media-control-tab-bar.component';
-import { FalStore } from '../../fal/fal.store';
+import { FalStore } from '../../services/fal/fal.store';
 
 describe('MediaControlTabBarComponent', () => {
   let fixture: ComponentFixture<MediaControlTabBarComponent>;
