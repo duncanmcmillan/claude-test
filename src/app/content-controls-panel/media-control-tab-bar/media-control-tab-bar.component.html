@@ -13,5 +13,6 @@
   <mat-progress-bar
     class="tab-progress"
     mode="determinate"
-    [value]="0" />
+    [value]="progressValue()"
+    [style.--mdc-linear-progress-active-indicator-color]="progressColor()" />
 </div>
