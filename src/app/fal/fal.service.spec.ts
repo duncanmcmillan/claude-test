@@ -28,7 +28,7 @@ describe('FalService', () => {
     service = TestBed.inject(FalService);
   });
 
-  afterEach(() => vi.resetAllMocks());
+  afterEach(() => vi.clearAllMocks());
 
   it('should be created', () => {
     expect(service).toBeTruthy();
@@ -99,6 +99,7 @@ describe('FalService', () => {
     });
 
     it('emits FalServiceError with requestId on failure', async () => {
+      vi.mocked(fal.queue.result).mockReset();
       vi.mocked(fal.queue.result).mockRejectedValue(new Error('Expired'));
 
       await expect(firstValueFrom(service.getResult('req-123', 'fal-ai/flux')))

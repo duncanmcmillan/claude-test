@@ -1,0 +1,7 @@
+@if (isImage()) {
+  <img class="media" [src]="mediaItem().url" [alt]="mediaItem().content_type" />
+} @else if (isVideo()) {
+  <video class="media" [src]="mediaItem().url" controls></video>
+} @else if (isAudio()) {
+  <audio class="media" [src]="mediaItem().url" controls></audio>
+}
