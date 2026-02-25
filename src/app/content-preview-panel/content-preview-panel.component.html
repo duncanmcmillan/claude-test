@@ -1,6 +1,5 @@
 <mat-card appearance="outlined" class="preview-panel">
-  <span class="component-title">contentPreviewPanel</span>
-  @for (item of mediaItems(); track item.url) {
+@for (item of mediaItems(); track item.url) {
     <app-media-container [mediaItem]="item" />
   }
 </mat-card>
