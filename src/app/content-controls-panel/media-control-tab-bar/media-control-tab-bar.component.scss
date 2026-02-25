@@ -55,21 +55,17 @@
 
 .tab-progress {
   width: 100%;
-  --mdc-linear-progress-track-color: rgba(255, 255, 255, 0.06);
-  --mdc-linear-progress-track-height: 2px;
-  --mdc-linear-progress-active-indicator-height: 2px;
-}
-
-// Use ::ng-deep to beat Angular Material's theme specificity on the CSS variable.
-// Same pattern as content-preview-panel.component.scss (.preview-panel.mat-mdc-card).
-:host ::ng-deep .tab-progress.mat-mdc-progress-bar {
-  --mdc-linear-progress-active-indicator-color: #f57c28;
+  // Angular Material 17+ uses --mat-progress-bar-* tokens, not --mdc-linear-progress-*
+  --mat-progress-bar-active-indicator-color: #f57c28;
+  --mat-progress-bar-active-indicator-height: 2px;
+  --mat-progress-bar-track-color: rgba(255, 255, 255, 0.06);
+  --mat-progress-bar-track-height: 2px;
 
   &.progress-completed {
-    --mdc-linear-progress-active-indicator-color: #4caf50;
+    --mat-progress-bar-active-indicator-color: #4caf50;
   }
 
   &.progress-error {
-    --mdc-linear-progress-active-indicator-color: #f44336;
+    --mat-progress-bar-active-indicator-color: #f44336;
   }
 }
