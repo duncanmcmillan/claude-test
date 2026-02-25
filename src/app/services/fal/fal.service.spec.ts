@@ -28,7 +28,7 @@ describe('FalService', () => {
     service = TestBed.inject(FalService);
   });
 
-  afterEach(() => vi.resetAllMocks());
+  afterEach(() => vi.clearAllMocks());
 
   it('should be created', () => {
     expect(service).toBeTruthy();
