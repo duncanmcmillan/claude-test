@@ -1,11 +1,18 @@
 import { vi } from 'vitest';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { provideNoopAnimations } from '@angular/platform-browser/animations';
+import { signal } from '@angular/core';
 import { ContentControlsPanelComponent } from './content-controls-panel.component';
 import { TextInputControlComponent } from './text-input-control';
-import { FalStore } from '../fal/fal.store';
+import { FalStore } from '../services/fal/fal.store';
 
-const mockFalStore = { submit: vi.fn() };
+const mockFalStore = {
+  submit: vi.fn(),
+  loading: signal(false),
+  status: signal(null),
+  result: signal(null),
+  error: signal(null),
+};
 
 describe('ContentControlsPanelComponent', () => {
   let fixture: ComponentFixture<ContentControlsPanelComponent>;

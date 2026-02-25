@@ -12,6 +12,8 @@
   </div>
   <mat-progress-bar
     class="tab-progress"
+    [class.progress-completed]="progressState() === 'completed'"
+    [class.progress-error]="progressState() === 'error'"
     mode="determinate"
-    [value]="0" />
+    [value]="progressValue()" />
 </div>

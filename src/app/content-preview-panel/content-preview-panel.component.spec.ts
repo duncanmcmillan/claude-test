@@ -1,15 +1,27 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { provideNoopAnimations } from '@angular/platform-browser/animations';
+import { signal } from '@angular/core';
+import { describe, it, expect, beforeEach } from 'vitest';
 import { ContentPreviewPanelComponent } from './content-preview-panel.component';
+import { FalStore } from '../services/fal';
+import type { FalJobResult } from '../services/fal';
+import type { MediaItem } from '../media-container';
+
+const mockFalStore = { result: signal<FalJobResult | null>(null) };
 
 describe('ContentPreviewPanelComponent', () => {
   let fixture: ComponentFixture<ContentPreviewPanelComponent>;
   let compiled: HTMLElement;
 
   beforeEach(async () => {
+    mockFalStore.result.set(null);
+
     await TestBed.configureTestingModule({
       imports: [ContentPreviewPanelComponent],
-      providers: [provideNoopAnimations()],
+      providers: [
+        provideNoopAnimations(),
+        { provide: FalStore, useValue: mockFalStore },
+      ],
     }).compileComponents();
 
     fixture = TestBed.createComponent(ContentPreviewPanelComponent);
@@ -19,16 +31,6 @@ describe('ContentPreviewPanelComponent', () => {
 
   it('should create', () => {
     expect(fixture.componentInstance).toBeTruthy();
-  });
-
-  it('should display the component title "contentPreviewPanel"', () => {
-    const title = compiled.querySelector('.component-title');
-    expect(title?.textContent?.trim()).toBe('contentPreviewPanel');
-  });
-
-  it('should render the component title in the top-left via .component-title', () => {
-    const title = compiled.querySelector('.component-title');
-    expect(title).toBeTruthy();
   });
 
   it('should render a mat-card element', () => {
@@ -46,20 +48,40 @@ describe('ContentPreviewPanelComponent', () => {
     expect(card).toBeTruthy();
   });
 
-  it('should have white background on the preview panel', () => {
-    // JSDOM cannot resolve SCSS class-based styles via getComputedStyle.
-    // The white background is defined in .preview-panel { background: white }.
-    // We verify the element is a mat-card with the preview-panel class so the
-    // SCSS rule is guaranteed to apply in a real browser.
-    const card = compiled.querySelector('mat-card.preview-panel');
-    expect(card).toBeTruthy();
-    expect(card?.tagName.toLowerCase()).toBe('mat-card');
+  it('should render no media containers when result is null', () => {
+    expect(compiled.querySelectorAll('app-media-container').length).toBe(0);
   });
 
-  it('should have the component-title text colour set to black in CSS', () => {
-    const title = compiled.querySelector<HTMLElement>('.component-title');
-    expect(title).toBeTruthy();
-    const styles = getComputedStyle(title!);
-    expect(styles.color).toBe('rgb(0, 0, 0)');
+  it('should render a media container for each image in a FAL result', async () => {
+    const images: MediaItem[] = [
+      { url: 'https://cdn.fal.ai/img1.jpg', content_type: 'image/jpeg', width: 1024, height: 768 },
+      { url: 'https://cdn.fal.ai/img2.jpg', content_type: 'image/jpeg', width: 1024, height: 768 },
+    ];
+    mockFalStore.result.set({ data: { images }, requestId: 'req-1' });
+    fixture.detectChanges();
+    await fixture.whenStable();
+
+    expect(compiled.querySelectorAll('app-media-container').length).toBe(2);
+  });
+
+  it('should accumulate media containers across multiple results', async () => {
+    const result1: FalJobResult = {
+      data: { images: [{ url: 'https://cdn.fal.ai/a.jpg', content_type: 'image/jpeg' }] },
+      requestId: 'req-1',
+    };
+    const result2: FalJobResult = {
+      data: { images: [{ url: 'https://cdn.fal.ai/b.jpg', content_type: 'image/jpeg' }] },
+      requestId: 'req-2',
+    };
+
+    mockFalStore.result.set(result1);
+    fixture.detectChanges();
+    await fixture.whenStable();
+
+    mockFalStore.result.set(result2);
+    fixture.detectChanges();
+    await fixture.whenStable();
+
+    expect(compiled.querySelectorAll('app-media-container').length).toBe(2);
   });
 });

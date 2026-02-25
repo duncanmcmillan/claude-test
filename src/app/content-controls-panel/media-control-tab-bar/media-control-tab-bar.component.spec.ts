@@ -1,18 +1,39 @@
-import { describe, it, expect, vi, beforeEach } from 'vitest';
+import { describe, it, expect, vi, beforeEach, afterEach } from 'vitest';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { provideNoopAnimations } from '@angular/platform-browser/animations';
+import { signal } from '@angular/core';
 import { MediaControlTabBarComponent } from './media-control-tab-bar.component';
-import { FalStore } from '../../fal/fal.store';
+import { FalStore } from '../../services/fal/fal.store';
+import type { QueueStatus, FalJobResult, FalServiceError } from '../../services/fal';
+
+const inQueueStatus: QueueStatus = {
+  status: 'IN_QUEUE', request_id: 'req-1', queue_position: 0,
+  response_url: '', status_url: '', cancel_url: '',
+};
+const inProgressStatus: QueueStatus = {
+  status: 'IN_PROGRESS', request_id: 'req-1',
+  response_url: '', status_url: '', cancel_url: '', logs: [],
+};
 
 describe('MediaControlTabBarComponent', () => {
   let fixture: ComponentFixture<MediaControlTabBarComponent>;
   let component: MediaControlTabBarComponent;
   let compiled: HTMLElement;
 
-  const mockFalStore = { submit: vi.fn() };
+  const mockFalStore = {
+    submit: vi.fn(),
+    loading: signal(false),
+    status: signal<QueueStatus | null>(null),
+    result: signal<FalJobResult | null>(null),
+    error: signal<FalServiceError | null>(null),
+  };
 
   beforeEach(async () => {
     vi.clearAllMocks();
+    mockFalStore.loading.set(false);
+    mockFalStore.status.set(null);
+    mockFalStore.result.set(null);
+    mockFalStore.error.set(null);
 
     await TestBed.configureTestingModule({
       imports: [MediaControlTabBarComponent],
@@ -27,6 +48,10 @@ describe('MediaControlTabBarComponent', () => {
     fixture.detectChanges();
     await fixture.whenStable();
     compiled = fixture.nativeElement as HTMLElement;
+  });
+
+  afterEach(() => {
+    vi.useRealTimers();
   });
 
   it('should create', () => {
@@ -80,7 +105,7 @@ describe('MediaControlTabBarComponent', () => {
 
   // ── onTabLabelClick – Image ────────────────────────────────────────────────
 
-  it('should call falStore.submit with flux/dev and prompt when Image span is clicked', () => {
+  it('should call falStore.submit with fal-ai/flux/dev and prompt when Image span is clicked', () => {
     fixture.componentRef.setInput('promptText', 'a red sunset');
     fixture.detectChanges();
 
@@ -90,7 +115,7 @@ describe('MediaControlTabBarComponent', () => {
 
     expect(mockFalStore.submit).toHaveBeenCalledOnce();
     expect(mockFalStore.submit).toHaveBeenCalledWith({
-      model: 'flux/dev',
+      model: 'fal-ai/flux/dev',
       input: { prompt: 'a red sunset' },
     });
   });
@@ -101,7 +126,7 @@ describe('MediaControlTabBarComponent', () => {
     imageSpan.click();
 
     expect(mockFalStore.submit).toHaveBeenCalledWith({
-      model: 'flux/dev',
+      model: 'fal-ai/flux/dev',
       input: { prompt: '' },
     });
   });
@@ -120,5 +145,111 @@ describe('MediaControlTabBarComponent', () => {
       .find(s => s.textContent?.trim() === 'Sound')!;
     soundSpan.click();
     expect(mockFalStore.submit).not.toHaveBeenCalled();
+  });
+
+  // ── Progress bar ───────────────────────────────────────────────────────────
+
+  it('should start with progress value 0', () => {
+    expect(component.progressValue()).toBe(0);
+  });
+
+  it('should start with amber colour', () => {
+    expect(component.progressColor()).toBe('#f57c28');
+  });
+
+  it('should increment progress by 20 per non-completed status poll', async () => {
+    mockFalStore.loading.set(true);
+    mockFalStore.status.set(null);
+    fixture.detectChanges();
+    await fixture.whenStable();
+
+    mockFalStore.status.set({ ...inQueueStatus });
+    fixture.detectChanges();
+    await fixture.whenStable();
+    expect(component.progressValue()).toBe(20);
+
+    mockFalStore.status.set({ ...inProgressStatus });
+    fixture.detectChanges();
+    await fixture.whenStable();
+    expect(component.progressValue()).toBe(40);
+  });
+
+  it('should cap progress at 80 while polling', async () => {
+    mockFalStore.loading.set(true);
+    mockFalStore.status.set(null);
+    fixture.detectChanges();
+    await fixture.whenStable();
+
+    for (let i = 0; i < 6; i++) {
+      mockFalStore.status.set({ ...inProgressStatus, request_id: `r${i}` });
+      fixture.detectChanges();
+      await fixture.whenStable();
+    }
+
+    expect(component.progressValue()).toBe(80);
+  });
+
+  it('should reset progress to 0 when a new job starts', async () => {
+    mockFalStore.loading.set(true);
+    mockFalStore.status.set(null);
+    fixture.detectChanges();
+    await fixture.whenStable();
+
+    mockFalStore.status.set({ ...inQueueStatus });
+    fixture.detectChanges();
+    await fixture.whenStable();
+    expect(component.progressValue()).toBe(20);
+
+    // New job starts
+    mockFalStore.status.set(null);
+    fixture.detectChanges();
+    await fixture.whenStable();
+    expect(component.progressValue()).toBe(0);
+  });
+
+  it('should show 100 and green colour when result arrives', async () => {
+    vi.useFakeTimers();
+    mockFalStore.result.set({ data: {}, requestId: 'req-1' });
+    fixture.detectChanges();
+
+    expect(component.progressValue()).toBe(100);
+    expect(component.progressColor()).toBe('#4caf50');
+  });
+
+  it('should show 100 and red colour on error', async () => {
+    vi.useFakeTimers();
+    mockFalStore.error.set({ message: 'FAL request failed' });
+    fixture.detectChanges();
+
+    expect(component.progressValue()).toBe(100);
+    expect(component.progressColor()).toBe('#f44336');
+  });
+
+  it('should reset progress to 0 and amber after 2 seconds on completion', async () => {
+    vi.useFakeTimers();
+    mockFalStore.result.set({ data: {}, requestId: 'req-1' });
+    fixture.detectChanges();
+
+    expect(component.progressValue()).toBe(100);
+
+    vi.advanceTimersByTime(2000);
+    fixture.detectChanges();
+
+    expect(component.progressValue()).toBe(0);
+    expect(component.progressColor()).toBe('#f57c28');
+  });
+
+  it('should reset progress to 0 and amber after 2 seconds on error', async () => {
+    vi.useFakeTimers();
+    mockFalStore.error.set({ message: 'FAL request failed' });
+    fixture.detectChanges();
+
+    expect(component.progressValue()).toBe(100);
+
+    vi.advanceTimersByTime(2000);
+    fixture.detectChanges();
+
+    expect(component.progressValue()).toBe(0);
+    expect(component.progressColor()).toBe('#f57c28');
   });
 });
