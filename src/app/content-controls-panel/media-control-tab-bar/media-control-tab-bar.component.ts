@@ -40,7 +40,6 @@ export class MediaControlTabBarComponent {
   /** Current terminal state, exposed for CSS class bindings in the template. */
   readonly progressState = computed(() => this.finalState());
 
-
   constructor() {
     effect(() => {
       const loading = this.falStore.loading();
