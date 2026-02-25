@@ -1,30 +1,10 @@
 import { TestBed } from '@angular/core/testing';
 import { provideHttpClient } from '@angular/common/http';
 import { firstValueFrom } from 'rxjs';
-import { vi, describe, it, expect, beforeEach, afterEach } from 'vitest';
+import { vi, describe, it, expect, beforeEach, afterEach, type MockInstance } from 'vitest';
 import { OpenAiService } from './open-ai.service';
 import type { OpenAiRequestInput, OpenAiJobRef } from './open-ai.model';
 import type { ChatCompletion, ChatCompletionCreateParamsNonStreaming } from 'openai/resources';
-
-const mockCreate = vi.hoisted(() => vi.fn());
-
-vi.mock('openai', () => {
-  class MockAPIError extends Error {
-    status?: number;
-    code?: string | null;
-    constructor(message: string, status?: number, code?: string | null) {
-      super(message);
-      this.name = 'APIError';
-      this.status = status;
-      this.code = code;
-    }
-  }
-  function MockOpenAI(this: Record<string, unknown>) {
-    this['chat'] = { completions: { create: mockCreate } };
-  }
-  (MockOpenAI as unknown as Record<string, unknown>)['APIError'] = MockAPIError;
-  return { default: MockOpenAI };
-});
 
 const mockCompletion: ChatCompletion = {
   id: 'chatcmpl-123',
@@ -51,15 +31,19 @@ const requestInput: OpenAiRequestInput = {
 
 describe('OpenAiService', () => {
   let service: OpenAiService;
+  let createSpy: MockInstance;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
       providers: [provideHttpClient(), OpenAiService],
     });
     service = TestBed.inject(OpenAiService);
+    // Spy on the real client instance's create method to avoid live HTTP calls
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    createSpy = vi.spyOn((service as any).client.chat.completions, 'create');
   });
 
-  afterEach(() => vi.clearAllMocks());
+  afterEach(() => vi.restoreAllMocks());
 
   it('should be created', () => {
     expect(service).toBeTruthy();
@@ -67,24 +51,24 @@ describe('OpenAiService', () => {
 
   describe('request()', () => {
     it('emits OpenAiJobRef with a jobId and the completion on success', async () => {
-      mockCreate.mockResolvedValue(mockCompletion);
+      createSpy.mockResolvedValue(mockCompletion);
 
       const result = await firstValueFrom(service.request(requestInput));
 
       expect(result.jobId).toMatch(/^[0-9a-f-]{36}$/); // UUID
       expect(result.completion).toEqual(mockCompletion);
-      expect(mockCreate).toHaveBeenCalledWith(requestInput.params);
+      expect(createSpy).toHaveBeenCalledWith(requestInput.params);
     });
 
     it('emits OpenAiServiceError with message on generic Error', async () => {
-      mockCreate.mockRejectedValue(new Error('Rate limit exceeded'));
+      createSpy.mockRejectedValue(new Error('Rate limit exceeded'));
 
       await expect(firstValueFrom(service.request(requestInput)))
         .rejects.toMatchObject({ message: 'Rate limit exceeded' });
     });
 
     it('emits default message on non-Error rejection', async () => {
-      mockCreate.mockRejectedValue('unknown');
+      createSpy.mockRejectedValue('unknown');
 
       await expect(firstValueFrom(service.request(requestInput)))
         .rejects.toMatchObject({ message: 'OpenAI request failed' });

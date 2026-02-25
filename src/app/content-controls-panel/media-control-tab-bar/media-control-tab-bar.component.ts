@@ -32,7 +32,7 @@ export class MediaControlTabBarComponent {
    */
   onTabLabelClick(tab: string): void {
     if (tab === 'Image') {
-      this.falStore.submit({ model: 'flux/dev', input: { prompt: this.promptText() } });
+      this.falStore.submit({ model: 'fal-ai/flux/dev', input: { prompt: this.promptText() } });
     }
   }
 }

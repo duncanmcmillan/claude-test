@@ -80,7 +80,7 @@ describe('MediaControlTabBarComponent', () => {
 
   // ── onTabLabelClick – Image ────────────────────────────────────────────────
 
-  it('should call falStore.submit with flux/dev and prompt when Image span is clicked', () => {
+  it('should call falStore.submit with fal-ai/flux/dev and prompt when Image span is clicked', () => {
     fixture.componentRef.setInput('promptText', 'a red sunset');
     fixture.detectChanges();
 
@@ -90,7 +90,7 @@ describe('MediaControlTabBarComponent', () => {
 
     expect(mockFalStore.submit).toHaveBeenCalledOnce();
     expect(mockFalStore.submit).toHaveBeenCalledWith({
-      model: 'flux/dev',
+      model: 'fal-ai/flux/dev',
       input: { prompt: 'a red sunset' },
     });
   });
@@ -101,7 +101,7 @@ describe('MediaControlTabBarComponent', () => {
     imageSpan.click();
 
     expect(mockFalStore.submit).toHaveBeenCalledWith({
-      model: 'flux/dev',
+      model: 'fal-ai/flux/dev',
       input: { prompt: '' },
     });
   });
