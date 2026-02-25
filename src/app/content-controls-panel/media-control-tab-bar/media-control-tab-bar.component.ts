@@ -28,7 +28,7 @@ export class MediaControlTabBarComponent {
     return Math.min(this.pollCount() * 20, 80);
   });
 
-  /** CSS colour for the progress bar active indicator. */
+  /** CSS colour for the progress bar active indicator (used in tests). */
   readonly progressColor = computed(() => {
     switch (this.finalState()) {
       case 'completed': return '#4caf50';
@@ -36,6 +36,9 @@ export class MediaControlTabBarComponent {
       default:          return '#f57c28';
     }
   });
+
+  /** Current terminal state, exposed for CSS class bindings in the template. */
+  readonly progressState = computed(() => this.finalState());
 
   constructor() {
     effect(() => {

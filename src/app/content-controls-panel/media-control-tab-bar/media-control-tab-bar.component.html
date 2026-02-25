@@ -12,7 +12,8 @@
   </div>
   <mat-progress-bar
     class="tab-progress"
+    [class.progress-completed]="progressState() === 'completed'"
+    [class.progress-error]="progressState() === 'error'"
     mode="determinate"
-    [value]="progressValue()"
-    [style.--mdc-linear-progress-active-indicator-color]="progressColor()" />
+    [value]="progressValue()" />
 </div>

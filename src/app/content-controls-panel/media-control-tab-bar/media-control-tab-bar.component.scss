@@ -55,7 +55,16 @@
 
 .tab-progress {
   width: 100%;
+  --mdc-linear-progress-active-indicator-color: #f57c28;
   --mdc-linear-progress-track-color: rgba(255, 255, 255, 0.06);
   --mdc-linear-progress-track-height: 2px;
   --mdc-linear-progress-active-indicator-height: 2px;
+
+  &.progress-completed {
+    --mdc-linear-progress-active-indicator-color: #4caf50;
+  }
+
+  &.progress-error {
+    --mdc-linear-progress-active-indicator-color: #f44336;
+  }
 }
