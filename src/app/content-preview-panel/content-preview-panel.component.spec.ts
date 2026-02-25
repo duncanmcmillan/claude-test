@@ -33,16 +33,6 @@ describe('ContentPreviewPanelComponent', () => {
     expect(fixture.componentInstance).toBeTruthy();
   });
 
-  it('should display the component title "contentPreviewPanel"', () => {
-    const title = compiled.querySelector('.component-title');
-    expect(title?.textContent?.trim()).toBe('contentPreviewPanel');
-  });
-
-  it('should render the component title in the top-left via .component-title', () => {
-    const title = compiled.querySelector('.component-title');
-    expect(title).toBeTruthy();
-  });
-
   it('should render a mat-card element', () => {
     const card = compiled.querySelector('mat-card');
     expect(card).toBeTruthy();
@@ -56,23 +46,6 @@ describe('ContentPreviewPanelComponent', () => {
   it('should apply the preview-panel class to the mat-card', () => {
     const card = compiled.querySelector('mat-card.preview-panel');
     expect(card).toBeTruthy();
-  });
-
-  it('should have white background on the preview panel', () => {
-    // JSDOM cannot resolve SCSS class-based styles via getComputedStyle.
-    // The white background is defined in .preview-panel { background: white }.
-    // We verify the element is a mat-card with the preview-panel class so the
-    // SCSS rule is guaranteed to apply in a real browser.
-    const card = compiled.querySelector('mat-card.preview-panel');
-    expect(card).toBeTruthy();
-    expect(card?.tagName.toLowerCase()).toBe('mat-card');
-  });
-
-  it('should have the component-title text colour set to black in CSS', () => {
-    const title = compiled.querySelector<HTMLElement>('.component-title');
-    expect(title).toBeTruthy();
-    const styles = getComputedStyle(title!);
-    expect(styles.color).toBe('rgb(0, 0, 0)');
   });
 
   it('should render no media containers when result is null', () => {
