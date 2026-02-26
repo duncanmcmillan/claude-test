@@ -2,6 +2,7 @@ import { ChangeDetectionStrategy, Component, computed, effect, inject, input, si
 import { MatIconModule } from '@angular/material/icon';
 import { MatProgressBarModule } from '@angular/material/progress-bar';
 import { FalStore } from '../../services/fal/fal.store';
+import { MediaContainerWidthService } from '../../media-container';
 
 type FinalState = 'idle' | 'completed' | 'error';
 
@@ -18,6 +19,7 @@ export class MediaControlTabBarComponent {
   readonly promptText = input('');
 
   private readonly falStore = inject(FalStore);
+  private readonly widthService = inject(MediaContainerWidthService);
   private readonly pollCount = signal(0);
   private readonly finalState = signal<FinalState>('idle');
   private finalTimer: ReturnType<typeof setTimeout> | null = null;
@@ -95,11 +97,18 @@ export class MediaControlTabBarComponent {
   /**
    * Handles a click on a tab label span.
    * Submits an image generation job to FalStore when the 'Image' tab is clicked.
+   * Requests landscape dimensions: full container width × 100 px height.
    * @param tab - The label of the clicked tab (e.g. 'Image', 'Video', 'Sound').
    */
   onTabLabelClick(tab: string): void {
     if (tab === 'Image') {
-      this.falStore.submit({ model: 'fal-ai/flux/dev', input: { prompt: this.promptText() } });
+      this.falStore.submit({
+        model: 'fal-ai/flux/dev',
+        input: {
+          prompt: this.promptText(),
+          image_size: { width: this.widthService.containerWidth(), height: 100 },
+        },
+      });
     }
   }
 }
