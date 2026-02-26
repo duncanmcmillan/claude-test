@@ -1,7 +1,10 @@
+// Host dimensions:
+//   width  = 3 × 255px (children) + 2 × 5px (gap) + 2 × 10px (padding) + 2px (border) = 797px
+//   height = 445px (children)     + 2 × 10px (padding)                  + 2px (border) = 467px
 :host {
   display: block;
-  width: 90%;
-  height: 40px;
+  width: 797px;
+  height: 467px;
   margin-bottom: 10px;
 }
 
@@ -12,27 +15,26 @@
   margin: 0;
 }
 
-:host ::ng-deep .distribution-card.mat-mdc-card {
-  // mat-card elevated — dark theme (style-guide.html .card-elevated)
-  background: #1a1a1a;
-  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.5), 0 1px 2px rgba(0, 0, 0, 0.4);
-  transition: background 0.18s ease, box-shadow 0.18s ease;
-
-  &:hover {
-    background: rgba(245, 124, 40, 0.12);
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.6), 0 2px 4px rgba(0, 0, 0, 0.4);
-  }
-
-  &:active {
-    background: rgba(245, 124, 40, 0.18);
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.6), 0 2px 4px rgba(0, 0, 0, 0.4);
-  }
+.platforms-container {
+  display: flex;
+  flex-direction: row;
+  gap: 5px;
+  padding: 10px;
+  box-sizing: border-box;
 }
 
-.component-label {
-  display: block;
-  font-size: 0.75rem;
-  color: #ebebeb;
-  font-weight: 500;
-  padding: 4px 8px;
+:host ::ng-deep .distribution-card.mat-mdc-card {
+  background: #0c0d0e;
+  border: 1px solid rgba(245, 124, 40, 0.06);
+  box-shadow:
+    0 2px 12px rgba(0, 0, 0, 0.7),
+    0 0 40px rgba(0, 0, 0, 0.4);
+  padding: 0;
+  transition: box-shadow 0.3s ease;
+
+  &:hover {
+    box-shadow:
+      0 4px 20px rgba(0, 0, 0, 0.8),
+      0 0 1px rgba(245, 124, 40, 0.15);
+  }
 }
