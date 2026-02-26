@@ -1,0 +1,168 @@
+// ── Per-platform brand tokens ──────────────────────────────────────────────────
+:host {
+  --brand:    #ebebeb;
+  --brand-2:  #ebebeb;
+  --glow-sm:  rgba(235, 235, 235, 0.08);
+  --glow-lg:  rgba(235, 235, 235, 0.20);
+  --bg-tint:  rgba(235, 235, 235, 0.04);
+}
+
+:host(.platform-tiktok) {
+  --brand:   #ff0050;
+  --brand-2: #00f2ea;
+  --glow-sm: rgba(255, 0, 80, 0.10);
+  --glow-lg: rgba(255, 0, 80, 0.28);
+  --bg-tint: rgba(255, 0, 80, 0.05);
+}
+
+:host(.platform-youtube) {
+  --brand:   #ff1a1a;
+  --brand-2: #cc0000;
+  --glow-sm: rgba(255, 26, 26, 0.10);
+  --glow-lg: rgba(255, 26, 26, 0.28);
+  --bg-tint: rgba(255, 26, 26, 0.05);
+}
+
+:host(.platform-facebook) {
+  --brand:   #1877f2;
+  --brand-2: #0d65d9;
+  --glow-sm: rgba(24, 119, 242, 0.10);
+  --glow-lg: rgba(24, 119, 242, 0.28);
+  --bg-tint: rgba(24, 119, 242, 0.05);
+}
+
+// ── Host container ─────────────────────────────────────────────────────────────
+:host {
+  display: block;
+  position: relative;
+  width: 255px;
+  min-width: 255px;
+  height: 445px;
+  min-height: 445px;
+  overflow-y: scroll;
+  box-sizing: border-box;
+  border-radius: 6px;
+  border: 1px solid var(--glow-sm);
+  background:
+    radial-gradient(ellipse 70% 35% at 50% 0%, var(--bg-tint), transparent),
+    #111213;
+  box-shadow: 0 0 14px var(--glow-sm), inset 0 0 40px var(--glow-sm);
+  animation: border-breathe 3.5s ease-in-out infinite;
+  transition: border-color 0.3s ease, box-shadow 0.3s ease;
+
+  // Narrow brand-coloured scrollbar
+  scrollbar-width: thin;
+  scrollbar-color: var(--brand) rgba(255, 255, 255, 0.04);
+
+  &::-webkit-scrollbar       { width: 3px; }
+  &::-webkit-scrollbar-track { background: rgba(255, 255, 255, 0.03); }
+  &::-webkit-scrollbar-thumb { background: var(--brand); border-radius: 2px; }
+
+  &:hover {
+    border-color: var(--glow-lg);
+    box-shadow:
+      0 0 28px var(--glow-sm),
+      0 0 10px var(--glow-lg),
+      inset 0 0 60px var(--bg-tint);
+  }
+}
+
+@keyframes border-breathe {
+  0%, 100% { box-shadow: 0 0 14px var(--glow-sm), inset 0 0 40px var(--glow-sm); }
+  50%       { box-shadow: 0 0 26px var(--glow-lg), inset 0 0 60px var(--bg-tint); }
+}
+
+// ── Pulsing live dot ───────────────────────────────────────────────────────────
+.live-dot {
+  display: block;
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--brand);
+  box-shadow: 0 0 6px var(--brand);
+  animation: dot-pulse 1.8s ease-in-out infinite;
+}
+
+@keyframes dot-pulse {
+  0%, 100% { opacity: 1;   transform: scale(1);    box-shadow: 0 0 6px var(--brand); }
+  50%       { opacity: 0.3; transform: scale(0.6); box-shadow: 0 0 2px var(--brand); }
+}
+
+// ── Icon area ──────────────────────────────────────────────────────────────────
+.icon-area {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding-top: 10px;
+}
+
+// Standard platform icon (YouTube, Facebook)
+.platform-icon {
+  width: 24px;
+  height: 24px;
+  fill: var(--brand);
+  filter: drop-shadow(0 0 6px var(--brand));
+  transition: filter 0.3s ease, transform 0.3s ease;
+
+  :host:hover & {
+    filter: drop-shadow(0 0 12px var(--brand)) drop-shadow(0 0 24px var(--glow-sm));
+    transform: translateY(-1px);
+  }
+}
+
+// ── TikTok: chromatic aberration (three offset SVG layers) ────────────────────
+.tiktok-chroma {
+  position: relative;
+  width: 26px;
+  height: 26px;
+
+  .icon-layer {
+    position: absolute;
+    width: 24px;
+    height: 24px;
+    top: 1px;
+    left: 1px;
+    transition: transform 0.35s ease, filter 0.35s ease;
+  }
+
+  .layer-cyan  { fill: #00f2ea; transform: translate(-1px,  1px); opacity: 0.75; }
+  .layer-red   { fill: #ff0050; transform: translate( 1px, -1px); opacity: 0.75; }
+  .layer-white { fill: #ffffff; filter: drop-shadow(0 0 4px rgba(255, 255, 255, 0.5)); }
+
+  :host:hover & {
+    .layer-cyan  { transform: translate(-2px, 2px); filter: drop-shadow(0 0 8px #00f2ea); }
+    .layer-red   { transform: translate( 2px,-2px); filter: drop-shadow(0 0 8px #ff0050); }
+    .layer-white { filter: drop-shadow(0 0 8px rgba(255, 255, 255, 0.8)); }
+  }
+}
+
+// ── Platform name ──────────────────────────────────────────────────────────────
+.platform-name {
+  display: block;
+  text-align: center;
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 1.05rem;
+  letter-spacing: 0.14em;
+  color: var(--brand);
+  text-shadow: 0 0 12px var(--brand);
+  margin-top: 5px;
+  padding: 0 10px;
+}
+
+// ── Brand-gradient divider ─────────────────────────────────────────────────────
+.divider {
+  height: 1px;
+  margin: 6px 14px 0;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    var(--glow-lg) 20%,
+    var(--brand)   50%,
+    var(--glow-lg) 80%,
+    transparent
+  );
+  opacity: 0.35;
+}
